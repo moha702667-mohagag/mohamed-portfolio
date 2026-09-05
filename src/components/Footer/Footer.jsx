@@ -44,12 +44,7 @@ const footerLinkKeys = [
 ];
 
 const connectLinks = [
-  {
-    key: "email",
-    href: "mailto:moha702667@gmail.com",
-    icon: Mail,
-    external: false,
-  },
+  
   {
     key: "linkedin",
     href: "https://www.linkedin.com/in/mohamed-h-data-analysis",
