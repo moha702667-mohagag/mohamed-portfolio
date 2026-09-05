@@ -1,0 +1,1657 @@
+/* =========================================================
+   APPROACH — PREMIUM PROCESS SYSTEM
+========================================================= */
+
+.approach {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      circle at 50% 32%,
+      rgba(37, 99, 235, 0.055),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-bg-soft) 0%,
+      var(--color-bg) 100%
+    );
+}
+
+
+/* =========================================================
+   ARCHITECTURAL BACKGROUND
+========================================================= */
+
+.approach::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px
+    );
+
+  background-size: 90px 90px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 15%,
+      black 82%,
+      transparent 100%
+    );
+
+  opacity: 0.45;
+}
+
+
+/* =========================================================
+   AMBIENT BLUE FIELD
+========================================================= */
+
+.approach::after {
+  content: "";
+  position: absolute;
+
+  width: 680px;
+  height: 680px;
+
+  top: 18%;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(37, 99, 235, 0.08) 0%,
+      rgba(37, 99, 235, 0.025) 38%,
+      transparent 70%
+    );
+
+  filter: blur(12px);
+
+  pointer-events: none;
+  z-index: -2;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.approach-header {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding-bottom: 30px;
+
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+
+/* subtle scan line */
+
+.approach-header::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+
+  width: 90px;
+  height: 1px;
+
+  background: var(--color-primary);
+
+  box-shadow:
+    0 0 12px rgba(37, 99, 235, 0.65),
+    0 0 30px rgba(37, 99, 235, 0.22);
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.approach-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  color: var(--color-text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+
+.approach-label-line {
+  position: relative;
+
+  width: 34px;
+  height: 1px;
+
+  background: var(--color-primary);
+
+  box-shadow:
+    0 0 10px rgba(37, 99, 235, 0.5);
+}
+
+
+.approach-label-line::after {
+  content: "";
+
+  position: absolute;
+
+  top: -2px;
+  right: 0;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--color-primary);
+
+  box-shadow:
+    0 0 8px rgba(37, 99, 235, 0.7);
+}
+
+
+/* =========================================================
+   HEADER META
+========================================================= */
+
+.approach-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+
+  color: var(--color-text-faint);
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+
+.approach-header-meta span:last-child {
+  position: relative;
+
+  padding-left: 15px;
+
+  color: var(--color-text-muted);
+}
+
+
+.approach-header-meta span:last-child::before {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  left: 0;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background: var(--color-primary);
+
+  transform: translateY(-50%);
+
+  box-shadow:
+    0 0 8px rgba(37, 99, 235, 0.7);
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.approach-intro {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(280px, 0.75fr);
+
+  gap: 70px;
+
+  align-items: end;
+
+  padding:
+    100px 0
+    85px;
+}
+
+
+/* =========================================================
+   HEADING WRAP
+========================================================= */
+
+.approach-heading-wrap {
+  position: relative;
+}
+
+
+/* =========================================================
+   SMALL HEADING
+========================================================= */
+
+.approach-heading-small {
+  display: block;
+
+  margin-bottom: 14px;
+
+  color: var(--color-primary);
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.approach-title {
+  position: relative;
+
+  margin: 0;
+
+  color: var(--color-text);
+
+  font-family: var(--font-display);
+
+  font-size:
+    clamp(
+      68px,
+      10vw,
+      155px
+    );
+
+  font-weight: 600;
+
+  line-height: 0.8;
+
+  letter-spacing: -0.08em;
+
+  text-transform: uppercase;
+}
+
+
+/* blue optical accent */
+
+.approach-title::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -24px;
+
+  width: 74px;
+  height: 1px;
+
+  background: var(--color-primary);
+
+  box-shadow:
+    0 0 14px rgba(37, 99, 235, 0.5);
+}
+
+
+/* =========================================================
+   INTRO COPY
+========================================================= */
+
+.approach-intro-copy {
+  position: relative;
+
+  max-width: 420px;
+
+  padding-left: 22px;
+}
+
+
+.approach-intro-copy::before {
+  content: "";
+
+  position: absolute;
+
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+
+  width: 1px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      var(--color-primary),
+      rgba(37, 99, 235, 0.05)
+    );
+}
+
+
+.approach-intro-copy p {
+  margin: 0;
+
+  color: var(--color-text-soft);
+
+  font-size: 15px;
+
+  line-height: 1.85;
+}
+
+
+.approach-intro-mark {
+  display: block;
+
+  margin-top: 32px;
+
+  color: var(--color-text-faint);
+
+  font-family: var(--font-mono);
+
+  font-size: 9px;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   PROCESS
+========================================================= */
+
+.approach-process {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  border-top:
+    1px solid var(--border-subtle);
+
+  border-bottom:
+    1px solid var(--border-subtle);
+}
+
+
+/* =========================================================
+   PROCESS LINE
+========================================================= */
+
+.approach-process-line {
+  position: absolute;
+
+  top: -1px;
+  left: 0;
+
+  width: 100%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-primary),
+      rgba(37, 99, 235, 0.35),
+      transparent
+    );
+
+  transform: scaleX(0.16);
+
+  transform-origin: left;
+
+  opacity: 0.85;
+
+  box-shadow:
+    0 0 12px rgba(37, 99, 235, 0.35);
+}
+
+
+/* =========================================================
+   STEP
+========================================================= */
+
+.approach-step {
+  position: relative;
+
+  min-height: 440px;
+
+  padding:
+    30px
+    30px
+    28px;
+
+  overflow: hidden;
+
+  border-right:
+    1px solid var(--border-subtle);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.008),
+      transparent 65%
+    );
+
+  transition:
+    background 0.5s ease,
+    border-color 0.5s ease,
+    transform 0.5s
+      cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+.approach-step:first-of-type {
+  border-left:
+    1px solid var(--border-subtle);
+}
+
+
+.approach-step:last-child {
+  border-right: none;
+}
+
+
+/* =========================================================
+   STEP GRID TEXTURE
+========================================================= */
+
+.approach-step::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    radial-gradient(
+      circle at 85% 12%,
+      rgba(37, 99, 235, 0.14) 0,
+      rgba(37, 99, 235, 0.025) 2px,
+      transparent 3px
+    );
+
+  background-size: 18px 18px;
+
+  opacity: 0;
+
+  transition:
+    opacity 0.5s ease,
+    transform 0.8s
+      cubic-bezier(0.16, 1, 0.3, 1);
+
+  pointer-events: none;
+}
+
+
+.approach-step:hover::before {
+  opacity: 0.6;
+
+  transform:
+    translate(-8px, 8px);
+}
+
+
+/* =========================================================
+   STEP BLUE FIELD
+========================================================= */
+
+.approach-step::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(37, 99, 235, 0.025) 35%,
+      rgba(37, 99, 235, 0.09) 100%
+    );
+
+  transition:
+    height 0.65s
+      cubic-bezier(
+        0.16,
+        1,
+        0.3,
+        1
+      );
+
+  pointer-events: none;
+}
+
+
+.approach-step:hover::after {
+  height: 68%;
+}
+
+
+/* =========================================================
+   STEP TOP
+========================================================= */
+
+.approach-step-top {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.approach-step-number {
+  color: var(--color-primary);
+
+  font-family: var(--font-mono);
+
+  font-size: 10px;
+
+  letter-spacing: 0.08em;
+
+  transition:
+    text-shadow 0.35s ease;
+}
+
+
+.approach-step:hover .approach-step-number {
+  text-shadow:
+    0 0 14px rgba(37, 99, 235, 0.55);
+}
+
+
+.approach-step-detail {
+  color: var(--color-text-faint);
+
+  font-family: var(--font-mono);
+
+  font-size: 8px;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.approach-step-icon {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 54px;
+  height: 54px;
+
+  margin:
+    75px 0
+    32px;
+
+  border:
+    1px solid var(--border-soft);
+
+  border-radius: 50%;
+
+  color: var(--color-text-muted);
+
+  background:
+    rgba(255, 255, 255, 0.015);
+
+  transition:
+    transform 0.55s
+      cubic-bezier(
+        0.16,
+        1,
+        0.3,
+        1
+      ),
+    background 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+
+/* outer ring */
+
+.approach-step-icon::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -6px;
+
+  border:
+    1px solid rgba(37, 99, 235, 0.12);
+
+  border-radius: 50%;
+
+  transform: scale(0.8);
+
+  opacity: 0;
+
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+}
+
+
+.approach-step:hover .approach-step-icon {
+  transform:
+    translateY(-7px)
+    rotate(-8deg);
+
+  background:
+    var(--color-primary);
+
+  border-color:
+    var(--color-primary);
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 12px 35px rgba(37, 99, 235, 0.2),
+    0 0 28px rgba(37, 99, 235, 0.12);
+}
+
+
+.approach-step:hover .approach-step-icon::before {
+  transform: scale(1);
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   STEP TITLE
+========================================================= */
+
+.approach-step h3 {
+  position: relative;
+  z-index: 3;
+
+  margin: 0;
+
+  color: var(--color-text);
+
+  font-family: var(--font-display);
+
+  font-size:
+    clamp(
+      25px,
+      2.5vw,
+      38px
+    );
+
+  font-weight: 500;
+
+  line-height: 0.95;
+
+  letter-spacing: -0.05em;
+
+  transition:
+    transform 0.45s
+      cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.35s ease;
+}
+
+
+.approach-step:hover h3 {
+  transform:
+    translateX(4px);
+}
+
+
+/* =========================================================
+   STEP DESCRIPTION
+========================================================= */
+
+.approach-step p {
+  position: relative;
+  z-index: 3;
+
+  max-width: 270px;
+
+  margin:
+    20px 0 0;
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+
+  line-height: 1.8;
+
+  transition:
+    color 0.35s ease;
+}
+
+
+.approach-step:hover p {
+  color:
+    var(--color-text-soft);
+}
+
+
+/* =========================================================
+   STEP BOTTOM
+========================================================= */
+
+.approach-step-bottom {
+  position: absolute;
+
+  right: 28px;
+  bottom: 27px;
+  left: 28px;
+
+  z-index: 4;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--color-text-faint);
+
+  font-family: var(--font-mono);
+
+  font-size: 9px;
+
+  letter-spacing: 0.08em;
+}
+
+
+.approach-step-bottom svg {
+  color: var(--color-primary);
+
+  opacity: 0.65;
+
+  transition:
+    transform 0.4s ease,
+    opacity 0.4s ease;
+}
+
+
+.approach-step:hover
+.approach-step-bottom svg {
+  transform:
+    translate(4px, 4px);
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   STATEMENT
+========================================================= */
+
+.approach-statement {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    50px 1fr;
+
+  gap: 30px;
+
+  align-items: start;
+
+  max-width: 900px;
+
+  padding:
+    60px 0
+    10px;
+}
+
+
+/* statement accent */
+
+.approach-statement::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 64px;
+
+  width: 1px;
+  height: 46px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      var(--color-primary),
+      transparent
+    );
+}
+
+
+.approach-statement-number {
+  padding-top: 8px;
+
+  color: var(--color-primary);
+
+  font-family: var(--font-mono);
+
+  font-size: 10px;
+
+  letter-spacing: 0.08em;
+}
+
+
+.approach-statement p {
+  margin: 0;
+
+  color: var(--color-text-muted);
+
+  font-family: var(--font-display);
+
+  font-size:
+    clamp(
+      22px,
+      3vw,
+      40px
+    );
+
+  line-height: 1.15;
+
+  letter-spacing: -0.04em;
+}
+
+
+.approach-statement strong {
+  color: var(--color-text);
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.approach-cta {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 56px;
+
+  padding:
+    14px
+    18px
+    14px
+    20px;
+
+  overflow: hidden;
+
+  color: var(--color-text);
+
+  text-decoration: none;
+
+  border:
+    1px solid var(--border-soft);
+
+  background:
+    rgba(255, 255, 255, 0.02);
+
+  transition:
+    color 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+
+/* blue fill */
+
+.approach-cta::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-primary),
+      var(--color-primary-bright)
+    );
+
+  transform:
+    scaleX(0);
+
+  transform-origin: left;
+
+  transition:
+    transform 0.45s
+      cubic-bezier(
+        0.16,
+        1,
+        0.3,
+        1
+      );
+
+  z-index: -1;
+}
+
+
+/* moving highlight */
+
+.approach-cta::after {
+  content: "";
+
+  position: absolute;
+
+  top: -100%;
+  left: -20%;
+
+  width: 35%;
+  height: 300%;
+
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  transform: rotate(18deg) translateX(-120px);
+
+  transition:
+    transform 0.7s
+      cubic-bezier(
+        0.16,
+        1,
+        0.3,
+        1
+      );
+
+  pointer-events: none;
+}
+
+
+/* CTA text */
+
+.approach-cta > span:first-child {
+  position: relative;
+  z-index: 2;
+
+  font-family: var(--font-mono);
+
+  font-size: 0.72rem;
+
+  font-weight: 500;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+}
+
+
+/* CTA icon */
+
+.approach-cta-icon {
+  position: relative;
+  z-index: 2;
+
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid var(--border-soft);
+
+  background:
+    rgba(255, 255, 255, 0.03);
+
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    transform 0.35s ease;
+}
+
+
+.approach-cta:hover {
+  color: #ffffff;
+
+  border-color:
+    var(--color-primary);
+
+  background:
+    var(--color-primary);
+
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 18px 45px rgba(37, 99, 235, 0.18);
+}
+
+
+.approach-cta:hover::before {
+  transform:
+    scaleX(1);
+}
+
+
+.approach-cta:hover::after {
+  transform:
+    rotate(18deg)
+    translateX(420px);
+}
+
+
+.approach-cta:hover .approach-cta-icon {
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border-color:
+    rgba(255, 255, 255, 0.3);
+
+  transform:
+    translate(3px, 3px);
+}
+
+
+.approach-cta:focus-visible {
+  outline:
+    2px solid var(--color-primary-bright);
+
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   RTL
+========================================================= */
+
+html[dir="rtl"] .approach-label {
+  flex-direction: row-reverse;
+}
+
+
+html[dir="rtl"] .approach-header-meta {
+  flex-direction: row-reverse;
+}
+
+
+html[dir="rtl"] .approach-intro-copy {
+  padding-right: 22px;
+  padding-left: 0;
+}
+
+
+html[dir="rtl"] .approach-intro-copy::before {
+  right: 0;
+  left: auto;
+}
+
+
+html[dir="rtl"] .approach-title::after {
+  right: 0;
+  left: auto;
+}
+
+
+html[dir="rtl"] .approach-step:hover h3 {
+  transform:
+    translateX(-4px);
+}
+
+
+html[dir="rtl"] .approach-cta {
+  flex-direction: row-reverse;
+}
+
+
+html[dir="rtl"] .approach-cta::before {
+  transform-origin: right;
+}
+
+
+html[dir="rtl"] .approach-cta:hover::after {
+  transform:
+    rotate(18deg)
+    translateX(-420px);
+}
+
+
+html[dir="rtl"] .approach-statement::before {
+  right: 0;
+  left: auto;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .approach-intro {
+    grid-template-columns:
+      1fr
+      0.7fr;
+
+    gap: 45px;
+
+    padding:
+      80px 0
+      65px;
+  }
+
+
+  .approach-step {
+    min-height: 410px;
+
+    padding:
+      26px
+      22px;
+  }
+
+
+  .approach-step-icon {
+    margin-top: 65px;
+  }
+
+
+  .approach-step-bottom {
+    right: 22px;
+    left: 22px;
+  }
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .approach-header-meta {
+    display: none;
+  }
+
+
+  .approach-intro {
+    display: block;
+
+    padding:
+      70px 0
+      55px;
+  }
+
+
+  .approach-intro-copy {
+    margin-top: 38px;
+
+    max-width: 520px;
+  }
+
+
+  .approach-process {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .approach-step {
+    min-height: 390px;
+
+    border-bottom:
+      1px solid var(--border-subtle);
+  }
+
+
+  .approach-step:nth-child(2n) {
+    border-right: none;
+  }
+
+
+  .approach-step:nth-child(2n + 1) {
+    border-left:
+      1px solid var(--border-subtle);
+  }
+
+
+  .approach-step-icon {
+    margin-top: 55px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .approach::before {
+    background-size:
+      55px 55px;
+
+    opacity: 0.3;
+  }
+
+
+  .approach::after {
+    width: 420px;
+    height: 420px;
+
+    top: 24%;
+  }
+
+
+  .approach-header {
+    padding-bottom: 22px;
+  }
+
+
+  .approach-header::after {
+    width: 58px;
+  }
+
+
+  .approach-label {
+    gap: 10px;
+
+    font-size: 8px;
+  }
+
+
+  .approach-label-line {
+    width: 24px;
+  }
+
+
+  .approach-intro {
+    padding:
+      55px 0
+      45px;
+  }
+
+
+  .approach-heading-small {
+    margin-bottom: 10px;
+
+    font-size: 8px;
+  }
+
+
+  .approach-title {
+    font-size:
+      clamp(
+        55px,
+        18vw,
+        85px
+      );
+
+    line-height: 0.84;
+  }
+
+
+  .approach-title::after {
+    bottom: -18px;
+
+    width: 48px;
+  }
+
+
+  .approach-intro-copy {
+    margin-top: 40px;
+  }
+
+
+  .approach-intro-copy p {
+    font-size: 12px;
+
+    line-height: 1.8;
+  }
+
+
+  .approach-intro-mark {
+    margin-top: 24px;
+
+    font-size: 8px;
+  }
+
+
+  .approach-process {
+    display: block;
+  }
+
+
+  .approach-process-line {
+    transform:
+      scaleX(0.25);
+  }
+
+
+  .approach-step,
+  .approach-step:first-of-type,
+  .approach-step:last-child {
+    min-height: 340px;
+
+    padding:
+      28px
+      22px;
+
+    border-right: none;
+
+    border-left:
+      1px solid var(--border-subtle);
+
+    border-bottom:
+      1px solid var(--border-subtle);
+  }
+
+
+  .approach-step:last-child {
+    border-bottom: none;
+  }
+
+
+  .approach-step-icon {
+    width: 48px;
+    height: 48px;
+
+    margin:
+      48px 0
+      25px;
+  }
+
+
+  .approach-step h3 {
+    font-size:
+      clamp(
+        27px,
+        9vw,
+        40px
+      );
+  }
+
+
+  .approach-step p {
+    max-width: 100%;
+
+    font-size: 11px;
+
+    line-height: 1.8;
+  }
+
+
+  .approach-step-bottom {
+    right: 22px;
+    bottom: 22px;
+    left: 22px;
+  }
+
+
+  .approach-statement {
+    grid-template-columns:
+      30px 1fr;
+
+    gap: 15px;
+
+    padding:
+      45px 0
+      5px;
+  }
+
+
+  .approach-statement::before {
+    top: 49px;
+  }
+
+
+  .approach-statement-number {
+    font-size: 8px;
+  }
+
+
+  .approach-statement p {
+    font-size:
+      clamp(
+        20px,
+        6vw,
+        28px
+      );
+
+    line-height: 1.2;
+  }
+
+
+  .approach-cta {
+    width: 100%;
+
+    justify-content: space-between;
+
+    margin-top: 40px;
+
+    padding:
+      13px
+      14px
+      13px
+      17px;
+  }
+
+
+  .approach-cta-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .approach-title {
+    font-size: 51px;
+  }
+
+
+  .approach-intro-copy p {
+    font-size: 11px;
+  }
+
+
+  .approach-step,
+  .approach-step:first-of-type,
+  .approach-step:last-child {
+    min-height: 325px;
+
+    padding:
+      25px
+      18px;
+  }
+
+
+  .approach-step-icon {
+    width: 44px;
+    height: 44px;
+
+    margin:
+      42px 0
+      23px;
+  }
+
+
+  .approach-step h3 {
+    font-size: 26px;
+  }
+
+
+  .approach-step p {
+    font-size: 10.5px;
+  }
+
+
+  .approach-step-bottom {
+    right: 18px;
+    left: 18px;
+  }
+
+
+  .approach-statement {
+    gap: 12px;
+  }
+
+
+  .approach-statement p {
+    font-size: 19px;
+  }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .approach-step:hover {
+    transform: none;
+  }
+
+
+  .approach-step:hover::before {
+    opacity: 0;
+  }
+
+
+  .approach-step:hover::after {
+    height: 0;
+  }
+
+
+  .approach-step:hover .approach-step-icon {
+    transform: none;
+
+    background:
+      rgba(255, 255, 255, 0.015);
+
+    border-color:
+      var(--border-soft);
+
+    color:
+      var(--color-text-muted);
+
+    box-shadow: none;
+  }
+
+
+  .approach-step:hover .approach-step-icon::before {
+    opacity: 0;
+  }
+
+
+  .approach-step:hover h3 {
+    transform: none;
+  }
+
+
+  .approach-cta:hover {
+    transform: none;
+
+    box-shadow: none;
+  }
+
+
+  .approach-cta:hover::before {
+    transform: scaleX(0);
+  }
+
+
+  .approach-cta:hover::after {
+    transform:
+      rotate(18deg)
+      translateX(-120px);
+  }
+
+
+  .approach-cta:hover .approach-cta-icon {
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .approach *,
+  .approach *::before,
+  .approach *::after {
+    scroll-behavior: auto !important;
+
+    transition:
+      none !important;
+
+    animation:
+      none !important;
+  }
+}

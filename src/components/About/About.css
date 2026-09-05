@@ -1,0 +1,1659 @@
+/* =========================================================
+   MOHAMED HAGAG — ABOUT
+   Editorial / Cinematic / Technical / Precision
+========================================================= */
+
+.about {
+  --about-blue: #2563eb;
+  --about-blue-bright: #3b82f6;
+  --about-blue-light: #60a5fa;
+
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 82% 18%,
+      rgba(37, 99, 235, 0.055),
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at 12% 78%,
+      rgba(37, 99, 235, 0.025),
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-bg) 0%,
+      var(--color-bg-soft) 100%
+    );
+}
+
+
+/* =========================================================
+   ATMOSPHERIC FIELD
+========================================================= */
+
+.about::before {
+  content: "";
+
+  position: absolute;
+  top: 4%;
+  right: -330px;
+
+  width: 650px;
+  height: 650px;
+
+  border: 1px solid rgba(37, 99, 235, 0.075);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 80px rgba(37, 99, 235, 0.025),
+    inset 0 0 80px rgba(37, 99, 235, 0.018);
+
+  pointer-events: none;
+
+  animation:
+    aboutOrbit
+    18s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+@keyframes aboutOrbit {
+  from {
+    transform:
+      translate3d(0, 0, 0)
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      translate3d(-18px, 14px, 0)
+      rotate(4deg);
+  }
+}
+
+
+/* =========================================================
+   AMBIENT BLUE LIGHT
+========================================================= */
+
+.about::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: min(42%, 520px);
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--about-blue),
+      rgba(37, 99, 235, 0.18),
+      transparent
+    );
+
+  box-shadow:
+    0 0 18px rgba(37, 99, 235, 0.3);
+
+  opacity: 0.65;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.about-container {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.about-header {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 40px;
+
+  padding-bottom: 34px;
+
+  border-bottom:
+    1px solid var(--border-subtle);
+}
+
+
+/* =========================================================
+   HEADER SIGNAL
+========================================================= */
+
+.about-header::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+
+  width: 72px;
+  height: 1px;
+
+  background:
+    var(--about-blue-bright);
+
+  box-shadow:
+    0 0 14px rgba(37, 99, 235, 0.55);
+
+  animation:
+    aboutHeaderSignal
+    4s
+    ease-in-out
+    infinite;
+}
+
+@keyframes aboutHeaderSignal {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: translateX(24px);
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.about-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  color:
+    var(--color-text-muted);
+
+  font-family:
+    var(--font-mono);
+
+  font-size: 10px;
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   LABEL LINE
+========================================================= */
+
+.about-label-line {
+  position: relative;
+
+  width: 30px;
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--about-blue),
+      rgba(37, 99, 235, 0.15)
+    );
+
+  box-shadow:
+    0 0 10px rgba(37, 99, 235, 0.35);
+}
+
+.about-label-line::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  right: -1px;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background:
+    var(--about-blue-bright);
+
+  box-shadow:
+    0 0 10px rgba(37, 99, 235, 0.75);
+
+  transform:
+    translateY(-50%);
+}
+
+
+/* =========================================================
+   HEADER NOTE
+========================================================= */
+
+.about-header-note {
+  margin: 0;
+
+  max-width: 260px;
+
+  color:
+    var(--color-text-faint);
+
+  font-family:
+    var(--font-mono);
+
+  font-size: 9px;
+  font-weight: 500;
+
+  line-height: 1.8;
+
+  letter-spacing: 0.08em;
+
+  text-align: right;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.about-main {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.1fr)
+    minmax(320px, 0.9fr);
+
+  gap:
+    clamp(50px, 10vw, 160px);
+
+  padding:
+    clamp(80px, 10vw, 150px)
+    0
+    clamp(90px, 11vw, 160px);
+}
+
+
+/* =========================================================
+   VERTICAL PRECISION LINE
+========================================================= */
+
+.about-main::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+
+  left: 0;
+
+  width: 1px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(37, 99, 235, 0.14) 18%,
+      rgba(37, 99, 235, 0.05) 65%,
+      transparent
+    );
+
+  opacity: 0.8;
+}
+
+
+/* =========================================================
+   HEADING WRAPPER
+========================================================= */
+
+.about-heading-wrap {
+  position: relative;
+
+  align-self: start;
+
+  padding-left: 26px;
+}
+
+
+/* =========================================================
+   HEADING INDEX
+========================================================= */
+
+.about-heading-index {
+  position: relative;
+
+  display: inline-block;
+
+  margin-bottom: 24px;
+
+  color:
+    var(--about-blue-bright);
+
+  font-family:
+    var(--font-mono);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  line-height: 1;
+
+  letter-spacing: 0.12em;
+}
+
+.about-heading-index::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: calc(100% + 8px);
+
+  width: 18px;
+  height: 1px;
+
+  background:
+    rgba(37, 99, 235, 0.45);
+
+  box-shadow:
+    0 0 8px rgba(37, 99, 235, 0.35);
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.about-heading {
+  position: relative;
+
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  color:
+    var(--color-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(62px, 7.5vw, 112px);
+
+  font-weight: 500;
+
+  line-height: 0.86;
+
+  letter-spacing: -0.065em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   HEADING TEXT SHADOW
+========================================================= */
+
+.about-heading::after {
+  content: "";
+
+  position: absolute;
+
+  left: -12px;
+  bottom: -25px;
+
+  width: 180px;
+  height: 60px;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(37, 99, 235, 0.08),
+      transparent 70%
+    );
+
+  filter: blur(16px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADING HIGHLIGHT
+========================================================= */
+
+.about-heading span {
+  position: relative;
+
+  width: fit-content;
+
+  margin-left:
+    clamp(25px, 4vw, 65px);
+
+  color: transparent;
+
+  -webkit-text-stroke:
+    1px rgba(248, 250, 252, 0.52);
+
+  text-shadow:
+    0 0 35px rgba(37, 99, 235, 0.035);
+
+  transition:
+    color 500ms ease,
+    -webkit-text-stroke-color 500ms ease,
+    text-shadow 500ms ease;
+}
+
+
+/* =========================================================
+   HEADING BLUE TRACE
+========================================================= */
+
+.about-heading span::after {
+  content: "";
+
+  position: absolute;
+
+  left: 2%;
+  bottom: -9px;
+
+  width: 26%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--about-blue),
+      transparent
+    );
+
+  box-shadow:
+    0 0 10px rgba(37, 99, 235, 0.55);
+
+  transform:
+    scaleX(0);
+
+  transform-origin: left;
+
+  transition:
+    transform 700ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-heading-wrap:hover
+.about-heading span {
+  -webkit-text-stroke-color:
+    rgba(59, 130, 246, 0.78);
+
+  text-shadow:
+    0 0 45px rgba(37, 99, 235, 0.1);
+}
+
+.about-heading-wrap:hover
+.about-heading span::after {
+  transform:
+    scaleX(1);
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+.about-copy {
+  position: relative;
+
+  max-width: 520px;
+
+  padding-top: 45px;
+}
+
+
+/* =========================================================
+   COPY LIGHT RAIL
+========================================================= */
+
+.about-copy::before {
+  content: "";
+
+  position: absolute;
+
+  left: -28px;
+  top: 45px;
+
+  width: 1px;
+  height: 54px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      var(--about-blue),
+      transparent
+    );
+
+  box-shadow:
+    0 0 12px rgba(37, 99, 235, 0.3);
+}
+
+
+/* =========================================================
+   LEAD
+========================================================= */
+
+.about-lead {
+  margin: 0;
+
+  color:
+    var(--color-text-soft);
+
+  font-family:
+    var(--font-body);
+
+  font-size:
+    clamp(18px, 1.55vw, 22px);
+
+  font-weight: 400;
+
+  line-height: 1.65;
+
+  letter-spacing: -0.02em;
+}
+
+.about-lead strong {
+  position: relative;
+
+  color:
+    var(--color-text);
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   LEAD UNDERLINE SIGNAL
+========================================================= */
+
+.about-lead strong::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: -3px;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37, 99, 235, 0.55),
+      transparent
+    );
+
+  opacity: 0.7;
+}
+
+
+/* =========================================================
+   BODY COPY
+========================================================= */
+
+.about-text {
+  max-width: 470px;
+
+  margin:
+    28px 0 0;
+
+  color:
+    var(--color-text-muted);
+
+  font-family:
+    var(--font-body);
+
+  font-size: 14px;
+
+  line-height: 1.9;
+
+  letter-spacing: -0.005em;
+}
+
+
+/* =========================================================
+   LINK
+========================================================= */
+
+.about-link {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 36px;
+
+  color:
+    var(--color-text);
+
+  font-family:
+    var(--font-mono);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  line-height: 1;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  text-decoration: none;
+
+  transition:
+    color 300ms ease,
+    transform 350ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* =========================================================
+   LINK UNDERLINE
+========================================================= */
+
+.about-link::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -8px;
+
+  width: 0;
+  height: 1px;
+
+  background:
+    var(--about-blue);
+
+  box-shadow:
+    0 0 10px rgba(37, 99, 235, 0.45);
+
+  transition:
+    width 450ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* =========================================================
+   LINK ICON
+========================================================= */
+
+.about-link-icon {
+  position: relative;
+
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid var(--border-soft);
+
+  border-radius: 50%;
+
+  color:
+    var(--about-blue-bright);
+
+  background:
+    rgba(255, 255, 255, 0.018);
+
+  overflow: hidden;
+
+  transition:
+    transform 450ms
+    cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 300ms ease,
+    background 300ms ease,
+    box-shadow 350ms ease;
+}
+
+.about-link-icon::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(96, 165, 250, 0.18),
+      transparent 60%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 300ms ease;
+}
+
+
+/* =========================================================
+   LINK HOVER
+========================================================= */
+
+.about-link:hover {
+  color:
+    var(--color-white);
+
+  transform:
+    translateX(4px);
+}
+
+.about-link:hover::before {
+  width: 100%;
+}
+
+.about-link:hover .about-link-icon {
+  transform:
+    translate(4px, -4px)
+    rotate(4deg);
+
+  border-color:
+    rgba(37, 99, 235, 0.5);
+
+  background:
+    rgba(37, 99, 235, 0.08);
+
+  box-shadow:
+    0 0 24px rgba(37, 99, 235, 0.12);
+}
+
+.about-link:hover .about-link-icon::before {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   HIGHLIGHTS GRID
+========================================================= */
+
+.about-highlights {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  border-top:
+    1px solid var(--border-subtle);
+}
+
+
+/* =========================================================
+   HIGHLIGHT CARD
+========================================================= */
+
+.about-highlight {
+  position: relative;
+
+  min-height: 245px;
+
+  padding:
+    28px 28px 32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.018),
+      transparent 60%
+    );
+
+  transition:
+    background 400ms ease,
+    transform 450ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-highlight + .about-highlight {
+  padding-left: 30px;
+
+  border-left:
+    1px solid var(--border-subtle);
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.about-highlight-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 55px;
+}
+
+
+/* =========================================================
+   CARD NUMBER
+========================================================= */
+
+.about-highlight-top > span:first-child {
+  color:
+    var(--about-blue-bright);
+
+  font-family:
+    var(--font-mono);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.12em;
+}
+
+
+/* =========================================================
+   CARD DOT
+========================================================= */
+
+.about-highlight-dot {
+  position: relative;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background:
+    var(--about-blue);
+
+  box-shadow:
+    0 0 10px rgba(37, 99, 235, 0.55),
+    0 0 24px rgba(37, 99, 235, 0.18);
+}
+
+.about-highlight-dot::after {
+  content: "";
+
+  position: absolute;
+
+  inset: -5px;
+
+  border:
+    1px solid rgba(37, 99, 235, 0.16);
+
+  border-radius: 50%;
+
+  transform: scale(0.7);
+
+  opacity: 0;
+
+  transition:
+    transform 450ms ease,
+    opacity 450ms ease;
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.about-highlight h3 {
+  margin: 0;
+
+  color:
+    var(--color-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size: 19px;
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  letter-spacing: 0.01em;
+}
+
+
+/* =========================================================
+   CARD DESCRIPTION
+========================================================= */
+
+.about-highlight p {
+  max-width: 280px;
+
+  margin:
+    13px 0 0;
+
+  color:
+    var(--color-text-muted);
+
+  font-family:
+    var(--font-body);
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   CARD BOTTOM LINE
+========================================================= */
+
+.about-highlight-line {
+  position: absolute;
+
+  left: 0;
+  right: 28px;
+  bottom: 0;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--about-blue),
+      rgba(37, 99, 235, 0.18),
+      transparent
+    );
+
+  box-shadow:
+    0 0 12px rgba(37, 99, 235, 0.2);
+
+  transform:
+    scaleX(0.12);
+
+  transform-origin: left;
+
+  transition:
+    transform 600ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.about-highlight:hover {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(37, 99, 235, 0.045),
+      rgba(255, 255, 255, 0.012) 60%,
+      transparent
+    );
+
+  transform:
+    translateY(-3px);
+}
+
+.about-highlight:hover
+.about-highlight-line {
+  transform:
+    scaleX(1);
+}
+
+.about-highlight:hover
+.about-highlight-dot::after {
+  opacity: 1;
+
+  transform:
+    scale(1.5);
+}
+
+
+/* =========================================================
+   CARD TOP LIGHT
+========================================================= */
+
+.about-highlight::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 55px;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37, 99, 235, 0.55),
+      transparent
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 350ms ease,
+    width 450ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-highlight:hover::before {
+  width: 110px;
+  opacity: 1;
+}
+
+
+/* =========================================================
+   FOOTER SIGNATURE
+========================================================= */
+
+.about-footer {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  padding-top: 30px;
+}
+
+
+/* =========================================================
+   MH MARK
+========================================================= */
+
+.about-footer-mark {
+  position: relative;
+
+  color:
+    var(--about-blue-bright);
+
+  font-family:
+    var(--font-display);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  letter-spacing: -0.04em;
+
+  text-shadow:
+    0 0 18px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================================
+   FOOTER LINE
+========================================================= */
+
+.about-footer-line {
+  position: relative;
+
+  width: 70px;
+  height: 1px;
+
+  background:
+    var(--border-soft);
+}
+
+.about-footer-line::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 18px;
+  height: 1px;
+
+  background:
+    var(--about-blue);
+
+  box-shadow:
+    0 0 8px rgba(37, 99, 235, 0.45);
+}
+
+
+/* =========================================================
+   FOOTER TEXT
+========================================================= */
+
+.about-footer-text {
+  color:
+    var(--color-text-faint);
+
+  font-family:
+    var(--font-mono);
+
+  font-size: 8px;
+  font-weight: 500;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .about-main {
+    gap: 70px;
+  }
+
+  .about-heading {
+    font-size:
+      clamp(58px, 7.5vw, 88px);
+  }
+
+  .about-heading-wrap {
+    padding-left: 20px;
+  }
+
+  .about-copy {
+    padding-top: 30px;
+  }
+
+  .about-copy::before {
+    top: 30px;
+  }
+
+  .about-highlight {
+    padding-right: 20px;
+  }
+
+  .about-highlight + .about-highlight {
+    padding-left: 22px;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .about-header-note {
+    display: none;
+  }
+
+  .about-main {
+    grid-template-columns: 1fr;
+
+    gap: 20px;
+
+    padding:
+      75px
+      0
+      90px;
+  }
+
+  .about-heading-wrap {
+    padding-left: 18px;
+  }
+
+  .about-heading {
+    font-size:
+      clamp(68px, 12vw, 100px);
+  }
+
+  .about-copy {
+    max-width: 620px;
+
+    padding-top: 15px;
+
+    margin-left: 8vw;
+  }
+
+  .about-copy::before {
+    top: 15px;
+  }
+
+  .about-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .about-highlight {
+    min-height: auto;
+
+    padding:
+      28px
+      0
+      30px;
+  }
+
+  .about-highlight + .about-highlight {
+    padding-left: 0;
+
+    border-left: 0;
+
+    border-top:
+      1px solid var(--border-subtle);
+  }
+
+  .about-highlight-top {
+    margin-bottom: 35px;
+  }
+
+  .about-highlight p {
+    max-width: 500px;
+  }
+
+  .about-highlight-line {
+    right: 0;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .about::before {
+    width: 400px;
+    height: 400px;
+
+    right: -280px;
+  }
+
+  .about-header {
+    padding-bottom: 24px;
+  }
+
+  .about-header::after {
+    width: 52px;
+  }
+
+  .about-label {
+    font-size: 8px;
+  }
+
+  .about-label-line {
+    width: 22px;
+  }
+
+  .about-main {
+    gap: 10px;
+
+    padding:
+      62px
+      0
+      70px;
+  }
+
+  .about-main::before {
+    opacity: 0.45;
+  }
+
+  .about-heading-wrap {
+    padding-left: 14px;
+  }
+
+  .about-heading-index {
+    margin-bottom: 18px;
+
+    font-size: 8px;
+  }
+
+  .about-heading {
+    font-size:
+      clamp(52px, 16vw, 82px);
+
+    line-height: 0.88;
+  }
+
+  .about-heading span {
+    margin-left: 20px;
+
+    -webkit-text-stroke-width: 0.8px;
+  }
+
+  .about-copy {
+    margin-left: 20px;
+
+    padding-top: 18px;
+
+    max-width:
+      calc(100% - 20px);
+  }
+
+  .about-copy::before {
+    left: -12px;
+    top: 18px;
+  }
+
+  .about-lead {
+    font-size: 16px;
+
+    line-height: 1.7;
+  }
+
+  .about-text {
+    margin-top: 20px;
+
+    font-size: 13px;
+
+    line-height: 1.85;
+  }
+
+  .about-link {
+    margin-top: 28px;
+
+    font-size: 8px;
+  }
+
+  .about-link-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .about-highlight {
+    padding:
+      24px
+      0
+      26px;
+  }
+
+  .about-highlight-top {
+    margin-bottom: 30px;
+  }
+
+  .about-highlight h3 {
+    font-size: 17px;
+  }
+
+  .about-highlight p {
+    font-size: 12px;
+
+    line-height: 1.8;
+  }
+
+  .about-footer {
+    gap: 12px;
+
+    padding-top: 24px;
+  }
+
+  .about-footer-line {
+    width: 35px;
+  }
+
+  .about-footer-text {
+    font-size: 7px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .about-main {
+    padding-top: 52px;
+  }
+
+  .about-heading {
+    font-size: 49px;
+  }
+
+  .about-copy {
+    margin-left: 14px;
+
+    max-width:
+      calc(100% - 14px);
+  }
+
+  .about-lead {
+    font-size: 15px;
+  }
+
+  .about-text {
+    font-size: 12px;
+  }
+
+  .about-footer-text {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   RTL
+========================================================= */
+
+html[lang="ar"] .about {
+  direction: rtl;
+}
+
+html[lang="ar"] .about-header-note {
+  text-align: left;
+}
+
+html[lang="ar"] .about-header::after {
+  left: auto;
+  right: 0;
+}
+
+html[lang="ar"] .about-label {
+  flex-direction: row-reverse;
+}
+
+html[lang="ar"] .about-label-line::after {
+  right: auto;
+  left: -1px;
+}
+
+html[lang="ar"] .about-main::before {
+  left: auto;
+  right: 0;
+}
+
+html[lang="ar"] .about-heading-wrap {
+  padding-left: 0;
+  padding-right: 26px;
+}
+
+html[lang="ar"] .about-heading span {
+  margin-left: 0;
+  margin-right:
+    clamp(25px, 4vw, 65px);
+}
+
+html[lang="ar"] .about-heading span::after {
+  left: auto;
+  right: 2%;
+  transform-origin: right;
+}
+
+html[lang="ar"] .about-copy {
+  direction: rtl;
+}
+
+html[lang="ar"] .about-copy::before {
+  left: auto;
+  right: -28px;
+}
+
+html[lang="ar"] .about-link {
+  direction: rtl;
+}
+
+html[lang="ar"] .about-link:hover {
+  transform:
+    translateX(-4px);
+}
+
+html[lang="ar"] .about-link-icon {
+  transform-origin: center;
+}
+
+html[lang="ar"] .about-highlight + .about-highlight {
+  border-left: 0;
+  border-right:
+    1px solid var(--border-subtle);
+}
+
+html[lang="ar"] .about-highlight-line {
+  left: 28px;
+  right: 0;
+
+  transform-origin: right;
+}
+
+html[lang="ar"] .about-footer {
+  direction: rtl;
+}
+
+@media (max-width: 850px) {
+
+  html[lang="ar"] .about-heading-wrap {
+    padding-right: 18px;
+  }
+
+  html[lang="ar"] .about-copy {
+    margin-left: 0;
+    margin-right: 8vw;
+  }
+
+  html[lang="ar"] .about-copy::before {
+    right: -18px;
+  }
+
+  html[lang="ar"] .about-highlight + .about-highlight {
+    border-right: 0;
+    border-top:
+      1px solid var(--border-subtle);
+  }
+
+  html[lang="ar"] .about-highlight-line {
+    left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+
+  html[lang="ar"] .about-heading-wrap {
+    padding-right: 14px;
+  }
+
+  html[lang="ar"] .about-heading span {
+    margin-right: 20px;
+  }
+
+  html[lang="ar"] .about-copy {
+    margin-left: 0;
+    margin-right: 20px;
+
+    max-width:
+      calc(100% - 20px);
+  }
+
+  html[lang="ar"] .about-copy::before {
+    right: -12px;
+  }
+
+  html[lang="ar"] .about-highlight-line {
+    left: 0;
+    right: 0;
+  }
+}
+
+@media (max-width: 380px) {
+
+  html[lang="ar"] .about-copy {
+    margin-right: 14px;
+  }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .about-highlight {
+    transform: none;
+  }
+
+  .about-highlight-line {
+    transform:
+      scaleX(0.3);
+  }
+
+  .about-heading-wrap:hover
+  .about-heading span {
+    -webkit-text-stroke-color:
+      rgba(248, 250, 252, 0.52);
+
+    text-shadow:
+      0 0 35px rgba(37, 99, 235, 0.035);
+  }
+
+  .about-heading-wrap:hover
+  .about-heading span::after {
+    transform:
+      scaleX(0);
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .about::before,
+  .about-header::after {
+    animation: none;
+  }
+
+  .about-heading span,
+  .about-heading span::after,
+  .about-link,
+  .about-link-icon,
+  .about-link::before,
+  .about-highlight,
+  .about-highlight-line,
+  .about-highlight-dot::after {
+    transition: none;
+  }
+}

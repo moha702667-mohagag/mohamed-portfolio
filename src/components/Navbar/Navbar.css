@@ -1,0 +1,1737 @@
+/* =========================================================
+   MOHAMED HAGAG — PREMIUM NAVBAR
+   Visual System:
+   Dark / Editorial / Technical / Electric Blue
+========================================================= */
+
+.navbar {
+  --nav-blue: #2563eb;
+  --nav-blue-bright: #3b82f6;
+  --nav-blue-soft: rgba(37, 99, 235, 0.14);
+  --nav-blue-glow: rgba(37, 99, 235, 0.34);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  z-index: var(--z-navigation);
+
+  padding:
+    clamp(18px, 2vw, 28px)
+    var(--container-padding);
+
+  pointer-events: none;
+
+  transition:
+    padding 700ms var(--ease-out);
+}
+
+
+/* =========================================================
+   NAVBAR CONTAINER
+========================================================= */
+
+.navbar-container {
+  position: relative;
+
+  width: min(
+    100%,
+    var(--container-width)
+  );
+
+  min-height: 64px;
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  pointer-events: auto;
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   SCROLL GLASS SYSTEM
+========================================================= */
+
+.navbar-container::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -2;
+
+  border: 1px solid transparent;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.012)
+    );
+
+  opacity: 0;
+
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
+
+  box-shadow:
+    0 18px 70px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+  transition:
+    opacity 650ms var(--ease-out),
+    border-color 650ms var(--ease-out),
+    box-shadow 650ms var(--ease-out);
+}
+
+
+/* =========================================================
+   MOVING LIGHT INSIDE NAVBAR
+========================================================= */
+
+.navbar-container::after {
+  content: "";
+
+  position: absolute;
+
+  top: -1px;
+  left: 12%;
+
+  width: 28%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(59, 130, 246, 0.85),
+      transparent
+    );
+
+  filter:
+    blur(0.5px)
+    drop-shadow(0 0 8px rgba(37, 99, 235, 0.65));
+
+  opacity: 0;
+
+  transform: translateX(-160%);
+
+  pointer-events: none;
+
+  transition:
+    opacity 500ms ease;
+}
+
+
+/* =========================================================
+   SCROLLED STATE
+========================================================= */
+
+.navbar.scrolled {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.navbar.scrolled .navbar-container::before {
+  opacity: 1;
+
+  border-color:
+    rgba(255, 255, 255, 0.095);
+
+  box-shadow:
+    0 22px 85px rgba(0, 0, 0, 0.36),
+    0 0 0 1px rgba(37, 99, 235, 0.025),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.navbar.scrolled .navbar-container::after {
+  opacity: 1;
+
+  animation:
+    navbar-scan 7s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    infinite;
+}
+
+
+/* =========================================================
+   NAVBAR SCAN ANIMATION
+========================================================= */
+
+@keyframes navbar-scan {
+  0% {
+    transform: translateX(-160%);
+  }
+
+  42%,
+  100% {
+    transform: translateX(430%);
+  }
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.navbar-logo {
+  position: relative;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  gap: 1px;
+
+  border:
+    1px solid
+    var(--border-soft);
+
+  border-radius: 50%;
+
+  color:
+    var(--color-text);
+
+  background:
+    radial-gradient(
+      circle at 30% 22%,
+      rgba(37, 99, 235, 0.18),
+      transparent 48%
+    ),
+    radial-gradient(
+      circle at 75% 80%,
+      rgba(37, 99, 235, 0.035),
+      transparent 50%
+    ),
+    rgba(5, 7, 11, 0.72);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  font-family:
+    var(--font-display);
+
+  font-size: 13px;
+  font-weight: 650;
+
+  line-height: 1;
+
+  letter-spacing: -0.08em;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  cursor: pointer;
+
+  transition:
+    border-color 450ms ease,
+    background 450ms ease,
+    transform 550ms var(--ease-out),
+    box-shadow 450ms ease;
+}
+
+
+/* =========================================================
+   LOGO INNER ORBIT
+========================================================= */
+
+.navbar-logo::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 4px;
+
+  border:
+    1px solid
+    rgba(37, 99, 235, 0.16);
+
+  border-radius: inherit;
+
+  box-shadow:
+    inset 0 0 18px rgba(37, 99, 235, 0.025);
+
+  transition:
+    transform 700ms var(--ease-out),
+    border-color 450ms ease,
+    box-shadow 450ms ease;
+}
+
+
+/* =========================================================
+   LOGO SIGNAL
+========================================================= */
+
+.navbar-logo::after {
+  content: "";
+
+  position: absolute;
+
+  top: 7px;
+  right: 8px;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background:
+    var(--nav-blue-bright);
+
+  box-shadow:
+    0 0 8px rgba(37, 99, 235, 0.9),
+    0 0 18px rgba(37, 99, 235, 0.55),
+    0 0 30px rgba(37, 99, 235, 0.22);
+
+  opacity: 0;
+
+  transform: scale(0);
+
+  transition:
+    opacity 300ms ease,
+    transform 450ms var(--ease-out);
+}
+
+
+/* =========================================================
+   LOGO HOVER
+========================================================= */
+
+.navbar-logo:hover {
+  border-color:
+    rgba(59, 130, 246, 0.58);
+
+  background:
+    radial-gradient(
+      circle at 30% 22%,
+      rgba(37, 99, 235, 0.28),
+      transparent 55%
+    ),
+    rgba(37, 99, 235, 0.055);
+
+  transform:
+    translateY(-2px)
+    rotate(-6deg);
+
+  box-shadow:
+    0 14px 42px rgba(37, 99, 235, 0.14),
+    0 0 0 1px rgba(37, 99, 235, 0.04);
+}
+
+.navbar-logo:hover::before {
+  transform:
+    rotate(12deg)
+    scale(0.86);
+
+  border-color:
+    rgba(59, 130, 246, 0.42);
+
+  box-shadow:
+    inset 0 0 22px rgba(37, 99, 235, 0.07);
+}
+
+.navbar-logo:hover::after {
+  opacity: 1;
+  transform: scale(1);
+
+  animation:
+    logo-signal 1.8s
+    ease-in-out
+    infinite;
+}
+
+
+@keyframes logo-signal {
+  0%,
+  100% {
+    box-shadow:
+      0 0 8px rgba(37, 99, 235, 0.9),
+      0 0 18px rgba(37, 99, 235, 0.55);
+  }
+
+  50% {
+    box-shadow:
+      0 0 4px rgba(37, 99, 235, 1),
+      0 0 28px rgba(37, 99, 235, 0.7),
+      0 0 42px rgba(37, 99, 235, 0.25);
+  }
+}
+
+
+/* =========================================================
+   DESKTOP NAVIGATION
+========================================================= */
+
+.navbar-links {
+  position: absolute;
+
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap:
+    clamp(24px, 3vw, 42px);
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   NAVIGATION LINKS
+========================================================= */
+
+.navbar-links a {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 40px;
+
+  color:
+    var(--color-text-muted);
+
+  font-family:
+    var(--font-body);
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  outline: none;
+
+  transition:
+    color 350ms ease;
+}
+
+
+/* =========================================================
+   ACTIVE SIGNAL DOT
+========================================================= */
+
+.navbar-links a::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 3px;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background:
+    var(--nav-blue-bright);
+
+  box-shadow:
+    0 0 7px rgba(37, 99, 235, 0.95),
+    0 0 18px rgba(37, 99, 235, 0.55);
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, 5px)
+    scale(0.5);
+
+  transition:
+    opacity 350ms ease,
+    transform 450ms var(--ease-out);
+}
+
+
+/* =========================================================
+   NAVIGATION ENERGY LINE
+========================================================= */
+
+.navbar-links a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -1px;
+
+  width: 100%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--nav-blue),
+      transparent
+    );
+
+  transform:
+    scaleX(0);
+
+  transform-origin:
+    center;
+
+  box-shadow:
+    0 0 8px rgba(37, 99, 235, 0.3);
+
+  transition:
+    transform 550ms var(--ease-out);
+}
+
+
+/* =========================================================
+   LINK HOVER
+========================================================= */
+
+.navbar-links a:hover {
+  color:
+    var(--color-text);
+}
+
+.navbar-links a:hover::before {
+  opacity: 1;
+
+  transform:
+    translate(-50%, 0)
+    scale(1);
+}
+
+.navbar-links a:hover::after {
+  transform:
+    scaleX(1);
+}
+
+
+/* =========================================================
+   ACTIVE LINK
+========================================================= */
+
+.navbar-links a.active,
+.navbar-links a[aria-current="page"] {
+  color:
+    var(--color-text);
+}
+
+.navbar-links a.active::before,
+.navbar-links a[aria-current="page"]::before {
+  opacity: 1;
+
+  transform:
+    translate(-50%, 0)
+    scale(1);
+}
+
+.navbar-links a.active::after,
+.navbar-links a[aria-current="page"]::after {
+  transform:
+    scaleX(1);
+}
+
+
+/* =========================================================
+   CONTACT BUTTON
+========================================================= */
+
+.navbar-contact {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 42px;
+
+  padding:
+    0 17px
+    0 18px;
+
+  border:
+    1px solid
+    var(--border-soft);
+
+  border-radius: 999px;
+
+  color:
+    var(--color-text);
+
+  background:
+    rgba(5, 7, 11, 0.68);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  font-family:
+    var(--font-body);
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  cursor: pointer;
+
+  outline: none;
+
+  transition:
+    background 400ms ease,
+    border-color 400ms ease,
+    transform 500ms var(--ease-out),
+    box-shadow 400ms ease;
+}
+
+
+/* =========================================================
+   CONTACT LIGHT SWEEP
+========================================================= */
+
+.navbar-contact::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  background:
+    linear-gradient(
+      110deg,
+      transparent 15%,
+      rgba(37, 99, 235, 0.22),
+      transparent 85%
+    );
+
+  transform:
+    translateX(-120%);
+
+  transition:
+    transform 700ms var(--ease-expressive);
+}
+
+
+/* =========================================================
+   CONTACT EDGE
+========================================================= */
+
+.navbar-contact::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 1px;
+
+  border-radius: inherit;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.025);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTACT HOVER
+========================================================= */
+
+.navbar-contact:hover {
+  border-color:
+    var(--border-primary);
+
+  background:
+    rgba(37, 99, 235, 0.085);
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 12px 42px rgba(37, 99, 235, 0.14),
+    0 0 24px rgba(37, 99, 235, 0.045);
+}
+
+.navbar-contact:hover::before {
+  transform:
+    translateX(120%);
+}
+
+
+/* =========================================================
+   CONTACT ICON
+========================================================= */
+
+.navbar-contact svg {
+  width: 14px;
+  height: 14px;
+
+  color:
+    var(--nav-blue-bright);
+
+  transition:
+    transform 450ms var(--ease-out),
+    color 350ms ease;
+}
+
+.navbar-contact:hover svg {
+  color:
+    #60a5fa;
+
+  transform:
+    translate(2px, -2px);
+}
+
+
+/* =========================================================
+   LANGUAGE SWITCHER
+========================================================= */
+
+.navbar-language {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  min-width: 82px;
+  min-height: 40px;
+
+  padding:
+    0 16px;
+
+  border:
+    1px solid
+    var(--border-medium);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  color:
+    var(--color-text-muted);
+
+  font-family:
+    var(--font-mono);
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+
+  cursor: pointer;
+
+  outline: none;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  transition:
+    color 250ms ease,
+    border-color 250ms ease,
+    background 250ms ease,
+    transform 250ms ease,
+    box-shadow 250ms ease;
+}
+
+
+/* =========================================================
+   LANGUAGE LIGHT CORE
+========================================================= */
+
+.navbar-language::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      circle at 50% 120%,
+      rgba(37, 99, 235, 0.22),
+      transparent 62%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 350ms ease;
+}
+
+.navbar-language:hover::before {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   LANGUAGE HOVER
+========================================================= */
+
+.navbar-language:hover {
+  color:
+    var(--color-white);
+
+  border-color:
+    var(--border-primary);
+
+  background:
+    var(--color-primary-soft);
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 8px 26px rgba(37, 99, 235, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+
+/* =========================================================
+   LANGUAGE TEXT
+========================================================= */
+
+.navbar-language span {
+  transition:
+    color 250ms ease,
+    opacity 250ms ease,
+    transform 250ms ease;
+}
+
+.navbar-language span.active {
+  color:
+    var(--color-primary-bright);
+
+  font-weight: 700;
+
+  text-shadow:
+    0 0 14px rgba(37, 99, 235, 0.35);
+}
+
+.navbar-language-divider {
+  color:
+    var(--color-text-faint);
+
+  opacity: 0.8;
+
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   DESKTOP ACTIONS
+========================================================= */
+
+.navbar-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-left: auto;
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+
+.navbar-menu-button {
+  position: relative;
+
+  display: none;
+
+  width: 46px;
+  height: 46px;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid
+    var(--border-soft);
+
+  border-radius: 50%;
+
+  color:
+    var(--color-text);
+
+  background:
+    rgba(5, 7, 11, 0.72);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  cursor: pointer;
+
+  outline: none;
+
+  overflow: hidden;
+
+  transition:
+    border-color 400ms ease,
+    background 400ms ease,
+    transform 500ms var(--ease-out),
+    box-shadow 400ms ease;
+}
+
+
+/* =========================================================
+   MENU BUTTON BLUE CORE
+========================================================= */
+
+.navbar-menu-button::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 1px;
+
+  border-radius: inherit;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(37, 99, 235, 0.12),
+      transparent 65%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 350ms ease;
+}
+
+.navbar-menu-button:hover::before {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   MENU BUTTON HOVER
+========================================================= */
+
+.navbar-menu-button:hover {
+  border-color:
+    var(--border-primary);
+
+  background:
+    rgba(37, 99, 235, 0.075);
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 34px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =========================================================
+   MENU ICON
+========================================================= */
+
+.navbar-menu-button svg {
+  position: relative;
+  z-index: 2;
+
+  width: 18px;
+  height: 18px;
+
+  transition:
+    transform 450ms var(--ease-out);
+}
+
+.navbar-menu-button:hover svg {
+  transform:
+    scale(1.08);
+}
+
+
+/* =========================================================
+   MOBILE MENU BASE
+========================================================= */
+
+.mobile-menu {
+  display: none;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .navbar {
+    padding:
+      16px
+      var(--container-padding);
+  }
+
+  .navbar.scrolled {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE CONTAINER
+  ------------------------------------------------------- */
+
+  .navbar-container {
+    min-height: 58px;
+  }
+
+  .navbar-container::before {
+    border-radius: 22px;
+  }
+
+
+  /* -------------------------------------------------------
+     HIDE DESKTOP
+  ------------------------------------------------------- */
+
+  .navbar-links,
+  .navbar-actions {
+    display: none;
+  }
+
+
+  /* -------------------------------------------------------
+     SHOW MENU
+  ------------------------------------------------------- */
+
+  .navbar-menu-button {
+    display: flex;
+  }
+
+
+  /* -------------------------------------------------------
+     FULL SCREEN MENU
+  ------------------------------------------------------- */
+
+  .mobile-menu {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -5;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+      110px
+      28px
+      40px;
+
+    background:
+      radial-gradient(
+        circle at 82% 16%,
+        rgba(37, 99, 235, 0.11),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 12% 82%,
+        rgba(37, 99, 235, 0.055),
+        transparent 30%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(5, 7, 11, 0.985),
+        rgba(3, 4, 7, 0.995)
+      );
+
+    backdrop-filter:
+      blur(24px)
+      saturate(120%);
+
+    -webkit-backdrop-filter:
+      blur(24px)
+      saturate(120%);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+      translateY(-14px);
+
+    pointer-events: none;
+
+    transition:
+      opacity 500ms var(--ease-out),
+      visibility 500ms ease,
+      transform 600ms var(--ease-out);
+  }
+
+
+  /* -------------------------------------------------------
+     MENU AMBIENT GRID
+  ------------------------------------------------------- */
+
+  .mobile-menu::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+      linear-gradient(
+        rgba(255, 255, 255, 0.018) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.018) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      48px 48px;
+
+    mask-image:
+      linear-gradient(
+        to bottom,
+        transparent,
+        black 18%,
+        black 82%,
+        transparent
+      );
+
+    opacity: 0.22;
+  }
+
+
+  /* -------------------------------------------------------
+     MENU BLUE ORBIT
+  ------------------------------------------------------- */
+
+  .mobile-menu::after {
+    content: "";
+
+    position: absolute;
+
+    width: 360px;
+    height: 360px;
+
+    top: -160px;
+    right: -140px;
+
+    border-radius: 50%;
+
+    border:
+      1px solid
+      rgba(37, 99, 235, 0.08);
+
+    box-shadow:
+      0 0 100px rgba(37, 99, 235, 0.035),
+      inset 0 0 80px rgba(37, 99, 235, 0.025);
+
+    pointer-events: none;
+  }
+
+
+  /* -------------------------------------------------------
+     OPEN STATE
+  ------------------------------------------------------- */
+
+  .mobile-menu.is-open {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+      translateY(0);
+
+    pointer-events: auto;
+  }
+
+
+  /* -------------------------------------------------------
+     LINKS WRAPPER
+  ------------------------------------------------------- */
+
+  .mobile-menu-links {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    z-index: 2;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE LINKS
+  ------------------------------------------------------- */
+
+  .mobile-menu-links a {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    width: 100%;
+
+    padding:
+      20px
+      0;
+
+    border-bottom:
+      1px solid
+      var(--border-subtle);
+
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      clamp(
+        34px,
+        9vw,
+        58px
+      );
+
+    font-weight: 500;
+
+    line-height: 0.95;
+
+    letter-spacing: -0.055em;
+
+    text-decoration: none;
+
+    opacity: 0;
+
+    transform:
+      translateY(24px);
+
+    outline: none;
+
+    transition:
+      color 350ms ease,
+      opacity 500ms var(--ease-out),
+      transform 600ms var(--ease-out),
+      border-color 350ms ease;
+  }
+
+
+  /* -------------------------------------------------------
+     STAGGER
+  ------------------------------------------------------- */
+
+  .mobile-menu.is-open
+  .mobile-menu-links a {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+    transition-delay:
+      calc(
+        var(--item-index, 0) * 70ms
+      );
+  }
+
+
+  /* -------------------------------------------------------
+     LINK HOVER
+  ------------------------------------------------------- */
+
+  .mobile-menu-links a:hover {
+    color:
+      var(--color-primary-bright);
+  }
+
+
+  /* -------------------------------------------------------
+     NUMBER
+  ------------------------------------------------------- */
+
+  .mobile-menu-links a span {
+    min-width: 30px;
+
+    color:
+      var(--color-text-faint);
+
+    font-family:
+      var(--font-mono);
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    line-height: 1;
+
+    letter-spacing: 0.05em;
+
+    transition:
+      color 300ms ease,
+      transform 350ms var(--ease-out);
+  }
+
+  .mobile-menu-links a:hover span {
+    color:
+      var(--color-primary);
+
+    transform:
+      translateX(3px);
+  }
+
+
+  /* -------------------------------------------------------
+     ACTIVE MOBILE LINK
+  ------------------------------------------------------- */
+
+  .mobile-menu-links a.active {
+    color:
+      var(--color-primary-bright);
+  }
+
+  .mobile-menu-links a.active span {
+    color:
+      var(--color-primary);
+  }
+
+
+  /* -------------------------------------------------------
+     CONTACT
+  ------------------------------------------------------- */
+
+  .mobile-contact-link {
+    margin-top: 14px;
+
+    border-bottom:
+      0 !important;
+
+    color:
+      var(--color-primary) !important;
+  }
+
+  .mobile-contact-link span {
+    color:
+      rgba(37, 99, 235, 0.55) !important;
+  }
+
+  .mobile-contact-link svg {
+    margin-left: auto;
+
+    color:
+      var(--color-primary-bright);
+
+    transition:
+      transform 450ms var(--ease-out);
+  }
+
+  .mobile-contact-link:hover svg {
+    transform:
+      translate(4px, -4px);
+  }
+
+
+  /* -------------------------------------------------------
+     LANGUAGE
+  ------------------------------------------------------- */
+
+  .mobile-menu-links .navbar-language {
+    align-self: flex-start;
+
+    width: fit-content;
+
+    min-width: 88px;
+
+    margin-top: 26px;
+
+    opacity: 0;
+
+    transform:
+      translateY(24px);
+
+    transition:
+      opacity 500ms var(--ease-out),
+      transform 600ms var(--ease-out),
+      color 300ms ease,
+      border-color 300ms ease,
+      background 300ms ease;
+  }
+
+  .mobile-menu.is-open
+  .mobile-menu-links .navbar-language {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+    transition-delay:
+      calc(
+        var(--item-index, 0) * 70ms
+      );
+  }
+
+  .mobile-menu-links .navbar-language:hover {
+    color:
+      var(--color-white);
+
+    transform:
+      translateY(-2px);
+  }
+
+  .mobile-menu-links
+  .navbar-language span {
+    min-width: auto;
+
+    font-family:
+      var(--font-mono);
+
+    font-size: 9px;
+
+    color:
+      var(--color-text-muted);
+  }
+
+  .mobile-menu-links
+  .navbar-language span.active {
+    color:
+      var(--color-primary-bright);
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE DESKTOP LANGUAGE CONTROL
+  ------------------------------------------------------- */
+
+  .navbar-language-desktop {
+    display: none;
+  }
+
+  .navbar-language-mobile {
+    display: inline-flex;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 950px) and (min-width: 769px) {
+
+  .navbar {
+    padding-inline:
+      24px;
+  }
+
+  .navbar-links {
+    gap:
+      22px;
+  }
+
+  .navbar-links a {
+    font-size:
+      10px;
+
+    letter-spacing:
+      0.10em;
+  }
+
+  .navbar-contact {
+    padding-inline:
+      14px;
+
+    font-size:
+      10px;
+  }
+
+  .navbar-language {
+    min-width:
+      74px;
+
+    padding-inline:
+      12px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .navbar {
+    padding:
+      14px
+      var(--container-padding);
+  }
+
+  .navbar-container {
+    min-height:
+      54px;
+  }
+
+  .navbar-logo {
+    width:
+      44px;
+
+    height:
+      44px;
+  }
+
+  .navbar-menu-button {
+    width:
+      44px;
+
+    height:
+      44px;
+  }
+
+  .mobile-menu {
+    padding:
+      100px
+      20px
+      30px;
+  }
+
+  .mobile-menu-links a {
+    padding:
+      18px
+      0;
+
+    font-size:
+      clamp(
+        32px,
+        11vw,
+        48px
+      );
+  }
+
+  .mobile-menu::after {
+    width:
+      280px;
+
+    height:
+      280px;
+
+    top:
+      -120px;
+
+    right:
+      -120px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .navbar-logo {
+    width:
+      42px;
+
+    height:
+      42px;
+  }
+
+  .navbar-menu-button {
+    width:
+      42px;
+
+    height:
+      42px;
+  }
+
+  .mobile-menu {
+    padding-left:
+      18px;
+
+    padding-right:
+      18px;
+  }
+
+  .mobile-menu-links a {
+    gap:
+      12px;
+
+    font-size:
+      31px;
+  }
+
+  .mobile-menu-links a span {
+    min-width:
+      24px;
+  }
+}
+
+
+/* =========================================================
+   RTL
+========================================================= */
+
+html[lang="ar"] .navbar-links {
+  direction: rtl;
+}
+
+html[lang="ar"] .mobile-menu-links {
+  direction: rtl;
+}
+
+html[lang="ar"] .mobile-contact-link svg {
+  margin-left: 0;
+  margin-right: auto;
+
+  transform:
+    scaleX(-1);
+}
+
+html[lang="ar"] .mobile-contact-link:hover svg {
+  transform:
+    scaleX(-1)
+    translate(4px, -4px);
+}
+
+html[lang="ar"] .navbar-contact svg {
+  transform:
+    scaleX(-1);
+}
+
+html[lang="ar"] .navbar-contact:hover svg {
+  transform:
+    scaleX(-1)
+    translate(2px, -2px);
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.navbar-logo:focus-visible,
+.navbar-links a:focus-visible,
+.navbar-contact:focus-visible,
+.navbar-menu-button:focus-visible,
+.mobile-menu-links a:focus-visible,
+.navbar-language:focus-visible {
+  outline:
+    2px solid
+    var(--color-primary-bright);
+
+  outline-offset:
+    5px;
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .navbar-logo:hover,
+  .navbar-contact:hover,
+  .navbar-menu-button:hover,
+  .navbar-language:hover {
+    transform:
+      none;
+  }
+
+  .navbar-logo:hover::before {
+    transform:
+      none;
+  }
+
+  .navbar-logo:hover::after {
+    opacity:
+      0;
+
+    transform:
+      scale(0);
+
+    animation:
+      none;
+  }
+
+  .navbar-contact:hover::before {
+    transform:
+      translateX(-120%);
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .navbar *,
+  .navbar *::before,
+  .navbar *::after {
+    transition:
+      none !important;
+
+    animation:
+      none !important;
+  }
+}
