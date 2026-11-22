@@ -8,10 +8,12 @@ import Approach from "./components/Approach/Approach";
 import Stack from "./components/Stack/Stack";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
+import Intro from "./components/Intro/Intro";
 
 function App() {
   return (
     <>
+      <Intro />
       <ScrollProgress />
 
       <Navbar />
