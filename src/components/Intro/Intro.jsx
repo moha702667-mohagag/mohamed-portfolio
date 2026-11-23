@@ -1,126 +1,120 @@
-
 import { useCallback, useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
+import gsap from "gsap";
 import "./Intro.css";
-
 import mhLogo from "../../../favicon-mh.svg";
 
 const SESSION_KEY = "mh-intro-seen";
 
-function wasIntroSeen() {
-  try {
-    return sessionStorage.getItem(SESSION_KEY) === "true";
-  } catch {
-    return false;
-  }
-}
-
-function markIntroSeen() {
-  try {
-    sessionStorage.setItem(SESSION_KEY, "true");
-  } catch {
-    // Continue without session storage.
-  }
-}
-
-function createParticles() {
-  return Array.from({ length: 36 }, (_, index) => ({
-    id: index,
-    x: `${(index * 37.7 + 7) % 96 + 2}%`,
-    y: `${(index * 53.3 + 11) % 94 + 3}%`,
-    delay: `${(index % 9) * 0.35}s`,
-    duration: `${4 + (index % 6)}s`,
-    size: `${index % 5 === 0 ? 3 : 1 + (index % 2)}px`,
-    drift: `${8 + (index % 5) * 5}px`,
-  }));
-}
-
-const PARTICLES = createParticles();
+const PARTICLES = Array.from({ length: 34 }, (_, index) => ({
+  id: index,
+  left: `${(index * 37 + 11) % 100}%`,
+  top: `${(index * 61 + 7) % 100}%`,
+  delay: `${(index % 8) * 0.35}s`,
+  duration: `${5 + (index % 6)}s`,
+  size: `${2 + (index % 3)}px`,
+}));
 
 function Intro() {
-  const [visible, setVisible] = useState(() => !wasIntroSeen());
+  const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [resourcesReady, setResourcesReady] = useState(false);
-  const [animationDone, setAnimationDone] = useState(false);
 
   const rootRef = useRef(null);
   const timelineRef = useRef(null);
-  const finishedRef = useRef(false);
+  const resourcesReadyRef = useRef(false);
+  const animationDoneRef = useRef(false);
+  const finishingRef = useRef(false);
 
-  // Essential resource readiness.
+  const finishIntro = useCallback(() => {
+    if (finishingRef.current) return;
+
+    finishingRef.current = true;
+    sessionStorage.setItem(SESSION_KEY, "true");
+
+    timelineRef.current?.kill();
+
+    if (!rootRef.current) {
+      setVisible(false);
+      return;
+    }
+
+    gsap.to(rootRef.current, {
+      autoAlpha: 0,
+      scale: 1.025,
+      duration: 0.75,
+      ease: "power3.inOut",
+      onComplete: () => setVisible(false),
+    });
+  }, []);
+
+  const checkFinish = useCallback(() => {
+    if (resourcesReadyRef.current && animationDoneRef.current) {
+      finishIntro();
+    }
+  }, [finishIntro]);
+
+  // Check session and user's motion preference.
+  useEffect(() => {
+    const hasSeenIntro = sessionStorage.getItem(SESSION_KEY) === "true";
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (hasSeenIntro || prefersReducedMotion) {
+      sessionStorage.setItem(SESSION_KEY, "true");
+      setVisible(false);
+    }
+  }, []);
+
+  // Wait for important page resources, with a safety timeout.
   useEffect(() => {
     if (!visible) return;
 
     let active = true;
-    let timeoutId;
 
-    const images = Array.from(
-      document.querySelectorAll('img:not([loading="lazy"])')
-    );
+    const finishResourceCheck = () => {
+      if (!active) return;
 
-    const tasks = [
+      resourcesReadyRef.current = true;
+      checkFinish();
+    };
+
+    const imagePromises = Array.from(document.images)
+      .filter((image) => image.loading !== "lazy")
+      .map(
+        (image) =>
+          new Promise((resolve) => {
+            if (image.complete) {
+              resolve();
+              return;
+            }
+
+            image.addEventListener("load", resolve, { once: true });
+            image.addEventListener("error", resolve, { once: true });
+          })
+      );
+
+    const pagePromise =
       document.readyState === "complete"
         ? Promise.resolve()
         : new Promise((resolve) => {
             window.addEventListener("load", resolve, { once: true });
-          }),
+          });
 
-      document.fonts?.ready || Promise.resolve(),
+    const fontsPromise = document.fonts?.ready ?? Promise.resolve();
 
-      ...images.map(async (img) => {
-        if (img.complete) {
-          try {
-            await img.decode?.();
-          } catch {
-            // Broken image should not block the intro.
-          }
-          return;
-        }
+    const timeout = window.setTimeout(finishResourceCheck, 7000);
 
-        await new Promise((resolve) => {
-          img.addEventListener("load", resolve, { once: true });
-          img.addEventListener("error", resolve, { once: true });
-        });
-      }),
-    ];
-
-    let completed = 0;
-
-    const loading = Promise.all(
-      tasks.map((task) =>
-        Promise.resolve(task)
-          .catch(() => {})
-          .then(() => {
-            completed += 1;
-
-            if (active) {
-              setProgress(
-                Math.round((completed / tasks.length) * 100)
-              );
-            }
-          })
-      )
-    );
-
-    // Never leave the visitor waiting indefinitely.
-    const fallback = new Promise((resolve) => {
-      timeoutId = window.setTimeout(resolve, 7000);
-    });
-
-    Promise.race([loading, fallback]).then(() => {
-      if (!active) return;
-
-      setProgress(100);
-      setResourcesReady(true);
+    Promise.all([pagePromise, fontsPromise, ...imagePromises]).then(() => {
+      finishResourceCheck();
     });
 
     return () => {
       active = false;
-      window.clearTimeout(timeoutId);
+      window.clearTimeout(timeout);
     };
-  }, [visible]);
+  }, [visible, checkFinish]);
 
-  // Lock scrolling while the opening is active.
+  // Lock scrolling while the intro is visible.
   useEffect(() => {
     if (!visible) return;
 
@@ -132,391 +126,335 @@ function Intro() {
     };
   }, [visible]);
 
-  // Exit transition and skip handling.
-  const finishIntro = useCallback(() => {
-    if (finishedRef.current) return;
-
-    finishedRef.current = true;
-    markIntroSeen();
-
-    timelineRef.current?.kill();
-    timelineRef.current = null;
+  // Main cinematic timeline.
+  useEffect(() => {
+    if (!visible || !rootRef.current) return;
 
     const root = rootRef.current;
 
-    if (!root) {
-      setVisible(false);
-      return;
-    }
-
-    gsap.killTweensOf(root);
-
-    gsap.to(root, {
-      autoAlpha: 0,
-      scale: 1.035,
-      filter: "blur(8px)",
-      duration: 0.75,
-      ease: "power3.inOut",
-      onComplete: () => setVisible(false),
-    });
-  }, []);
-
-  // Cinematic four-act sequence.
-  useEffect(() => {
-    if (!visible) return;
-
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (reducedMotion) {
-      markIntroSeen();
-      setVisible(false);
-      return;
-    }
-
-    const context = gsap.context(() => {
+    const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        onComplete: () => setAnimationDone(true),
+        defaults: { ease: "power3.out" },
+        onUpdate: function () {
+          setProgress(Math.round(this.progress() * 100));
+        },
+        onComplete: () => {
+          animationDoneRef.current = true;
+          checkFinish();
+        },
       });
 
       timelineRef.current = tl;
 
-      // ACT 01 — THE AWAKENING
-      tl.fromTo(
-        ".intro-atmosphere",
-        { opacity: 0 },
-        { opacity: 1, duration: 1.8, ease: "power2.out" }
-      )
-        .fromTo(
-          ".intro-grid",
-          { opacity: 0 },
-          { opacity: 0.45, duration: 1.4 },
-          0.2
-        )
-        .fromTo(
-          ".intro-particle",
-          { opacity: 0, scale: 0, y: 18 },
-          {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            duration: 1.2,
-            stagger: 0.035,
-            ease: "power2.out",
-          },
-          0.45
-        )
-        .fromTo(
-          ".intro-topbar",
-          { opacity: 0, y: -15 },
-          { opacity: 1, y: 0, duration: 0.9 },
-          1.1
-        )
-
-        // ACT 02 — THE CORE
-        .fromTo(
+      gsap.set(
+        [
+          ".intro-kicker",
           ".intro-core",
-          { opacity: 0, scale: 0.55, filter: "blur(15px)" },
-          {
-            opacity: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 1.35,
-            ease: "power3.out",
-          },
-          2.15
-        )
-        .fromTo(
-          ".intro-energy",
-          { scale: 0.1, opacity: 0 },
-          {
-            scale: 1,
-            opacity: 1,
-            duration: 1.5,
-            ease: "power3.out",
-          },
-          2.35
-        )
-        .fromTo(
-          ".intro-orbit",
-          { rotation: -70, scale: 0.6, opacity: 0 },
-          {
-            rotation: 0,
-            scale: 1,
-            opacity: 1,
-            duration: 1.6,
-            stagger: 0.12,
-            ease: "power3.out",
-          },
-          2.5
-        )
-        .fromTo(
           ".intro-logo",
-          { opacity: 0, scale: 0.45, filter: "blur(15px)" },
-          {
-            opacity: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 1.1,
-            ease: "back.out(1.4)",
-          },
-          3.55
-        )
-        .fromTo(
           ".intro-core-caption",
-          { opacity: 0, y: 12 },
-          { opacity: 1, y: 0, duration: 0.7 },
-          4.25
-        )
-
-        // ACT 03 — THE IDENTITY
-        .fromTo(
-          ".intro-overline",
-          { opacity: 0, y: 12 },
-          { opacity: 1, y: 0, duration: 0.7 },
-          5.05
-        )
-        .fromTo(
-          ".intro-name",
-          {
-            opacity: 0,
-            y: 35,
-            filter: "blur(14px)",
-            letterSpacing: "0.22em",
-          },
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            letterSpacing: "-0.055em",
-            duration: 1.15,
-            ease: "power3.out",
-          },
-          5.35
-        )
-        .fromTo(
+          ".intro-title-block",
           ".intro-role",
-          { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.8 },
-          6.15
-        )
-        .fromTo(
           ".intro-access",
-          { opacity: 0, scale: 0.85, y: 12 },
-          {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            duration: 0.75,
-            ease: "back.out(1.5)",
-          },
-          6.9
-        )
-
-        // ACT 04 — THE TRANSITION
-        .fromTo(
+          ".intro-side-info",
+          ".intro-topbar",
           ".intro-footer",
-          { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.7 },
-          7.15
-        )
-        .fromTo(
-          ".intro-portal",
-          { opacity: 0, scale: 0.2 },
-          {
-            opacity: 0.85,
-            scale: 1,
-            duration: 1,
-            ease: "power2.out",
-          },
-          7.75
-        )
-        .to(
-          ".intro-portal",
-          {
-            scale: 8,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.in",
-          },
-          8.75
-        )
-        .to({}, { duration: 0.45 });
-    }, rootRef);
+        ],
+        { autoAlpha: 0 }
+      );
+
+      gsap.set(".intro-core", { scale: 0.65, rotate: -18 });
+      gsap.set(".intro-logo", { scale: 0.65, rotateY: 35 });
+      gsap.set(".intro-title", { y: 45, filter: "blur(12px)" });
+      gsap.set(".intro-role", { y: 18 });
+      gsap.set(".intro-access", { scale: 0.85 });
+      gsap.set(".intro-portal", { scale: 0.05, autoAlpha: 0 });
+
+      // Scene 01 — THE AWAKENING
+      tl.addLabel("awakening", 0);
+
+      tl.to(".intro-grid", {
+        autoAlpha: 0.38,
+        duration: 1.6,
+      }, "awakening");
+
+      tl.to(".intro-ambient", {
+        autoAlpha: 1,
+        scale: 1,
+        duration: 2,
+      }, "awakening");
+
+      tl.to(".intro-particles span", {
+        autoAlpha: 1,
+        stagger: {
+          each: 0.035,
+          from: "random",
+        },
+        duration: 1.1,
+      }, "awakening+=0.25");
+
+      tl.fromTo(
+        ".intro-kicker",
+        { y: 15, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.8 },
+        "awakening+=0.8"
+      );
+
+      tl.to(".intro-side-info, .intro-topbar", {
+        autoAlpha: 1,
+        duration: 0.8,
+      }, "awakening+=1.1");
+
+      // Scene 02 — THE CORE
+      tl.addLabel("core", "awakening+=2.1");
+
+      tl.to(".intro-core", {
+        autoAlpha: 1,
+        scale: 1,
+        rotate: 0,
+        duration: 1.4,
+        ease: "back.out(1.3)",
+      }, "core");
+
+      tl.to(".intro-orbit-ring", {
+        autoAlpha: 1,
+        stagger: 0.15,
+        duration: 0.9,
+      }, "core+=0.2");
+
+      tl.to(".intro-energy", {
+        autoAlpha: 1,
+        scaleX: 1,
+        duration: 1.1,
+        stagger: 0.12,
+      }, "core+=0.35");
+
+      tl.to(".intro-logo", {
+        autoAlpha: 1,
+        scale: 1,
+        rotateY: 0,
+        duration: 1.1,
+        ease: "back.out(1.5)",
+      }, "core+=0.65");
+
+      tl.to(".intro-core-caption", {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.8,
+      }, "core+=1.1");
+
+      // Scene 03 — THE IDENTITY
+      tl.addLabel("identity", "core+=2.25");
+
+      tl.to(".intro-core", {
+        scale: 0.78,
+        y: -105,
+        duration: 1.1,
+        ease: "power2.inOut",
+      }, "identity");
+
+      tl.to(".intro-core-caption", {
+        autoAlpha: 0,
+        y: -12,
+        duration: 0.35,
+      }, "identity");
+
+      tl.to(".intro-title-block", {
+        autoAlpha: 1,
+        duration: 0.3,
+      }, "identity+=0.2");
+
+      tl.to(".intro-title", {
+        y: 0,
+        filter: "blur(0px)",
+        duration: 1.2,
+        ease: "power3.out",
+      }, "identity+=0.25");
+
+      tl.to(".intro-role", {
+        autoAlpha: 1,
+        y: 0,
+        stagger: 0.15,
+        duration: 0.7,
+      }, "identity+=1.05");
+
+      // Scene 04 — THE TRANSITION
+      tl.addLabel("transition", "identity+=2.1");
+
+      tl.to(".intro-access", {
+        autoAlpha: 1,
+        scale: 1,
+        duration: 0.7,
+        ease: "back.out(1.6)",
+      }, "transition");
+
+      tl.to(".intro-portal", {
+        autoAlpha: 0.9,
+        scale: 1,
+        duration: 1.15,
+        ease: "power2.in",
+      }, "transition+=0.55");
+
+      tl.to(".intro-portal", {
+        scale: 18,
+        autoAlpha: 0,
+        duration: 0.8,
+        ease: "power3.in",
+      }, "transition+=1.4");
+
+      tl.to(".intro-main", {
+        scale: 1.06,
+        duration: 1.1,
+        ease: "power2.in",
+      }, "transition+=1.1");
+
+      tl.to(".intro-footer", {
+        autoAlpha: 1,
+        duration: 0.5,
+      }, "awakening+=0.5");
+
+    }, root);
 
     return () => {
-      context.revert();
-      timelineRef.current = null;
+      timelineRef.current?.kill();
+      ctx.revert();
     };
-  }, [visible]);
+  }, [visible, checkFinish]);
 
-  // Both the cinematic sequence and resources must be ready.
-  useEffect(() => {
-    if (animationDone && resourcesReady) {
-      finishIntro();
-    }
-  }, [animationDone, resourcesReady, finishIntro]);
+  const handleSkip = () => {
+    resourcesReadyRef.current = true;
+    animationDoneRef.current = true;
+    finishIntro();
+  };
 
   if (!visible) return null;
 
   return (
     <div className="intro-screen" ref={rootRef}>
-      {/* Background atmosphere */}
-      <div className="intro-atmosphere" aria-hidden="true">
-        <div className="intro-nebula intro-nebula-one" />
-        <div className="intro-nebula intro-nebula-two" />
-        <div className="intro-nebula intro-nebula-three" />
-      </div>
+      <div className="intro-background" />
 
-      <div className="intro-grid" aria-hidden="true" />
-      <div className="intro-noise" aria-hidden="true" />
-      <div className="intro-vignette" aria-hidden="true" />
+      <div className="intro-grid" />
+      <div className="intro-noise" />
+      <div className="intro-ambient" />
 
-      {/* Digital dust */}
       <div className="intro-particles" aria-hidden="true">
         {PARTICLES.map((particle) => (
           <span
-            className="intro-particle"
             key={particle.id}
             style={{
-              "--x": particle.x,
-              "--y": particle.y,
-              "--delay": particle.delay,
-              "--duration": particle.duration,
-              "--size": particle.size,
-              "--drift": particle.drift,
+              left: particle.left,
+              top: particle.top,
+              animationDelay: particle.delay,
+              animationDuration: particle.duration,
+              width: particle.size,
+              height: particle.size,
             }}
           />
         ))}
       </div>
 
-      {/* Cinematic light streaks */}
-      <div className="intro-light-streak intro-streak-one" aria-hidden="true" />
-      <div className="intro-light-streak intro-streak-two" aria-hidden="true" />
+      <div className="intro-scan-beam" />
 
-      {/* Header */}
       <header className="intro-topbar">
-        <div className="intro-brand">
-          <img src={mhLogo} alt="" />
-          <span>MOHAMED HAGAG</span>
-        </div>
-
-        <div className="intro-system-status">
+        <div className="intro-topbar-brand">
           <span className="intro-status-dot" />
-          DIGITAL IDENTITY SYSTEM
+          <span>MH / DIGITAL IDENTITY</span>
         </div>
 
-        <button
-          className="intro-skip"
-          type="button"
-          onClick={finishIntro}
-        >
+        <button className="intro-skip" onClick={handleSkip}>
           SKIP INTRO <span>↗</span>
         </button>
       </header>
 
-      {/* Side technical HUD */}
-      <div className="intro-side intro-side-left" aria-hidden="true">
-        <span>IDENTITY NODE</span>
-        <strong>MH / 001</strong>
-        <i />
-        <span>SECURE CHANNEL</span>
-        <strong>ESTABLISHED</strong>
-      </div>
+      <aside className="intro-side-info intro-side-left">
+        <span>PERSONAL PORTFOLIO</span>
+        <span>EST. 2026</span>
+      </aside>
 
-      <div className="intro-side intro-side-right" aria-hidden="true">
-        <span>PROTOCOL</span>
-        <strong>INITIALIZE</strong>
-        <i />
-        <span>ENVIRONMENT</span>
-        <strong>DIGITAL SPACE</strong>
-      </div>
+      <aside className="intro-side-info intro-side-right">
+        <span>INITIALIZING EXPERIENCE</span>
+        <span>SECURE CONNECTION</span>
+      </aside>
 
-      {/* Main cinematic composition */}
       <main className="intro-main">
+        <div className="intro-kicker">
+          <span className="intro-kicker-line" />
+          <span>THE DIGITAL CINEMA EXPERIENCE</span>
+          <span className="intro-kicker-line" />
+        </div>
+
         <div className="intro-core">
-          <div className="intro-energy" aria-hidden="true" />
+          <div className="intro-core-glow" />
 
-          <div className="intro-orbit intro-orbit-one" aria-hidden="true" />
-          <div className="intro-orbit intro-orbit-two" aria-hidden="true" />
-          <div className="intro-orbit intro-orbit-three" aria-hidden="true" />
-          <div className="intro-orbit intro-orbit-four" aria-hidden="true" />
+          <div className="intro-orbit-ring intro-orbit-ring-outer" />
+          <div className="intro-orbit-ring intro-orbit-ring-middle" />
+          <div className="intro-orbit-ring intro-orbit-ring-inner" />
 
-          <div className="intro-core-glow" aria-hidden="true" />
+          <div className="intro-energy intro-energy-one" />
+          <div className="intro-energy intro-energy-two" />
 
-          <div className="intro-logo">
-            <img src={mhLogo} alt="Mohamed Hagag" />
+          <div className="intro-logo-frame">
+            <img
+              className="intro-logo"
+              src={mhLogo}
+              alt="MH Logo"
+              draggable="false"
+            />
+          </div>
+
+          <div className="intro-core-caption">
+            <span>CORE SYSTEM</span>
+            <span className="intro-caption-line" />
+            <span>MH-01</span>
           </div>
         </div>
 
-        <div className="intro-core-caption">
-          <span />
-          DIGITAL IDENTITY / VERIFIED
-          <span />
-        </div>
-
         <div className="intro-title-block">
-          <p className="intro-overline">
-            WELCOME TO MY DIGITAL UNIVERSE
-          </p>
+          <span className="intro-title-overline">WELCOME TO MY WORLD</span>
 
-          <h1 className="intro-name">
+          <h1 className="intro-title">
             MOHAMED <span>HAGAG</span>
           </h1>
 
-          <p className="intro-role">
-            DATA ANALYST <span>·</span> DEVELOPER <span>·</span> BUILDER
-          </p>
+          <div className="intro-role">
+            <span>DATA ANALYST</span>
+            <i />
+            <span>DEVELOPER</span>
+            <i />
+            <span>BUILDER</span>
+          </div>
         </div>
 
         <div className="intro-access">
-          <span className="intro-access-check">✓</span>
-          <span>IDENTITY VERIFIED</span>
-          <i />
-          <strong>ACCESS GRANTED</strong>
+          <span className="intro-access-icon">✓</span>
+          <span>ACCESS GRANTED</span>
         </div>
       </main>
 
-      {/* Portal transition */}
-      <div className="intro-portal" aria-hidden="true" />
+      <div className="intro-portal" />
 
-      {/* Loading console */}
       <footer className="intro-footer">
-        <div className="intro-loading-header">
-          <span>PREPARING YOUR EXPERIENCE</span>
-          <strong>{String(progress).padStart(3, "0")}%</strong>
+        <div className="intro-footer-label">
+          <span>EXPERIENCE LOADING</span>
+          <span>{String(progress).padStart(2, "0")}%</span>
         </div>
 
-        <div
-          className="intro-progress-track"
-          role="progressbar"
-          aria-label="Loading website resources"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={progress}
-        >
+        <div className="intro-progress-track">
           <div
             className="intro-progress-fill"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        <div className="intro-footer-meta">
-          <span>
-            <i />
-            {resourcesReady ? "SYSTEM READY" : "INITIALIZING"}
-          </span>
-          <span>MH / DIGITAL IDENTITY</span>
-          <span>2026</span>
+        <div className="intro-footer-bottom">
+          <span>DESIGNED TO BUILD WHAT'S NEXT</span>
+          <span>MH © 2026</span>
         </div>
       </footer>
 
-      {/* Corner details */}
-      <span className="intro-corner intro-corner-tl" />
-      <span className="intro-corner intro-corner-tr" />
-      <span className="intro-corner intro-corner-bl" />
-      <span className="intro-corner intro-corner-br" />
+      <div className="intro-corner intro-corner-tl" />
+      <div className="intro-corner intro-corner-tr" />
+      <div className="intro-corner intro-corner-bl" />
+      <div className="intro-corner intro-corner-br" />
     </div>
   );
 }
