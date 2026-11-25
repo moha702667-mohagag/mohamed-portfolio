@@ -779,6 +779,56 @@
   border-right: 1px solid #6eafff;
 }
 
+
+/* =========================================
+   THREE.JS DIGITAL CORE
+========================================= */
+
+.intro-core {
+  isolation: isolate;
+}
+
+.digital-core-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.digital-core-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.intro-core-glow {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.intro-orbit-ring {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.intro-energy {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.intro-logo-frame {
+  z-index: 4;
+}
+
+.intro-core-caption {
+  z-index: 5;
+}
+
 /* =========================================================
    RESPONSIVE
 ========================================================= */

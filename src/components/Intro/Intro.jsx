@@ -1,7 +1,16 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import gsap from "gsap";
 import "./Intro.css";
+
 import mhLogo from "../../../favicon-mh.svg";
+import DigitalCore from "./DigitalCore";
 
 const SESSION_KEY = "mh-intro-seen";
 
@@ -20,14 +29,21 @@ function Intro() {
 
   const rootRef = useRef(null);
   const timelineRef = useRef(null);
+  const coreControlRef = useRef(null);
+
   const resourcesReadyRef = useRef(false);
   const animationDoneRef = useRef(false);
   const finishingRef = useRef(false);
+
+  /* =========================================
+     FINISH INTRO
+  ========================================= */
 
   const finishIntro = useCallback(() => {
     if (finishingRef.current) return;
 
     finishingRef.current = true;
+
     sessionStorage.setItem(SESSION_KEY, "true");
 
     timelineRef.current?.kill();
@@ -42,19 +58,30 @@ function Intro() {
       scale: 1.025,
       duration: 0.75,
       ease: "power3.inOut",
-      onComplete: () => setVisible(false),
+
+      onComplete: () => {
+        setVisible(false);
+      },
     });
   }, []);
 
   const checkFinish = useCallback(() => {
-    if (resourcesReadyRef.current && animationDoneRef.current) {
+    if (
+      resourcesReadyRef.current &&
+      animationDoneRef.current
+    ) {
       finishIntro();
     }
   }, [finishIntro]);
 
-  // Check session and user's motion preference.
+  /* =========================================
+     SESSION & REDUCED MOTION
+  ========================================= */
+
   useEffect(() => {
-    const hasSeenIntro = sessionStorage.getItem(SESSION_KEY) === "true";
+    const hasSeenIntro =
+      sessionStorage.getItem(SESSION_KEY) === "true";
+
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -65,7 +92,10 @@ function Intro() {
     }
   }, []);
 
-  // Wait for important page resources, with a safety timeout.
+  /* =========================================
+     RESOURCE READINESS
+  ========================================= */
+
   useEffect(() => {
     if (!visible) return;
 
@@ -88,8 +118,13 @@ function Intro() {
               return;
             }
 
-            image.addEventListener("load", resolve, { once: true });
-            image.addEventListener("error", resolve, { once: true });
+            image.addEventListener("load", resolve, {
+              once: true,
+            });
+
+            image.addEventListener("error", resolve, {
+              once: true,
+            });
           })
       );
 
@@ -97,16 +132,24 @@ function Intro() {
       document.readyState === "complete"
         ? Promise.resolve()
         : new Promise((resolve) => {
-            window.addEventListener("load", resolve, { once: true });
+            window.addEventListener("load", resolve, {
+              once: true,
+            });
           });
 
-    const fontsPromise = document.fonts?.ready ?? Promise.resolve();
+    const fontsPromise =
+      document.fonts?.ready ?? Promise.resolve();
 
-    const timeout = window.setTimeout(finishResourceCheck, 7000);
+    const timeout = window.setTimeout(
+      finishResourceCheck,
+      7000
+    );
 
-    Promise.all([pagePromise, fontsPromise, ...imagePromises]).then(() => {
-      finishResourceCheck();
-    });
+    Promise.all([
+      pagePromise,
+      fontsPromise,
+      ...imagePromises,
+    ]).then(finishResourceCheck);
 
     return () => {
       active = false;
@@ -114,11 +157,16 @@ function Intro() {
     };
   }, [visible, checkFinish]);
 
-  // Lock scrolling while the intro is visible.
+  /* =========================================
+     SCROLL LOCK
+  ========================================= */
+
   useEffect(() => {
     if (!visible) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const previousOverflow =
+      document.body.style.overflow;
+
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -126,7 +174,10 @@ function Intro() {
     };
   }, [visible]);
 
-  // Main cinematic timeline.
+  /* =========================================
+     MAIN CINEMATIC TIMELINE
+  ========================================= */
+
   useEffect(() => {
     if (!visible || !rootRef.current) return;
 
@@ -134,10 +185,16 @@ function Intro() {
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        onUpdate: function () {
-          setProgress(Math.round(this.progress() * 100));
+        defaults: {
+          ease: "power3.out",
         },
+
+        onUpdate: function () {
+          setProgress(
+            Math.round(this.progress() * 100)
+          );
+        },
+
         onComplete: () => {
           animationDoneRef.current = true;
           checkFinish();
@@ -145,6 +202,18 @@ function Intro() {
       });
 
       timelineRef.current = tl;
+
+      // Three.js controller
+      const coreController = coreControlRef.current;
+
+      if (coreController) {
+        coreController.powerState.value = 0.15;
+        coreController.applyPower();
+      }
+
+      /* =====================================
+         INITIAL STATES
+      ===================================== */
 
       gsap.set(
         [
@@ -159,172 +228,356 @@ function Intro() {
           ".intro-topbar",
           ".intro-footer",
         ],
-        { autoAlpha: 0 }
+        {
+          autoAlpha: 0,
+        }
       );
 
-      gsap.set(".intro-core", { scale: 0.65, rotate: -18 });
-      gsap.set(".intro-logo", { scale: 0.65, rotateY: 35 });
-      gsap.set(".intro-title", { y: 45, filter: "blur(12px)" });
-      gsap.set(".intro-role", { y: 18 });
-      gsap.set(".intro-access", { scale: 0.85 });
-      gsap.set(".intro-portal", { scale: 0.05, autoAlpha: 0 });
+      gsap.set(".intro-core", {
+        scale: 0.65,
+        rotate: -18,
+      });
 
-      // Scene 01 — THE AWAKENING
+      gsap.set(".intro-logo", {
+        scale: 0.65,
+        rotateY: 35,
+      });
+
+      gsap.set(".intro-title", {
+        y: 45,
+        filter: "blur(12px)",
+      });
+
+      gsap.set(".intro-role", {
+        y: 18,
+      });
+
+      gsap.set(".intro-access", {
+        scale: 0.85,
+      });
+
+      gsap.set(".intro-portal", {
+        scale: 0.05,
+        autoAlpha: 0,
+      });
+
+      /* =====================================
+         SCENE 01 — THE AWAKENING
+      ===================================== */
+
       tl.addLabel("awakening", 0);
 
-      tl.to(".intro-grid", {
-        autoAlpha: 0.38,
-        duration: 1.6,
-      }, "awakening");
-
-      tl.to(".intro-ambient", {
-        autoAlpha: 1,
-        scale: 1,
-        duration: 2,
-      }, "awakening");
-
-      tl.to(".intro-particles span", {
-        autoAlpha: 1,
-        stagger: {
-          each: 0.035,
-          from: "random",
+      tl.to(
+        ".intro-grid",
+        {
+          autoAlpha: 0.38,
+          duration: 1.6,
         },
-        duration: 1.1,
-      }, "awakening+=0.25");
+        "awakening"
+      );
+
+      tl.to(
+        ".intro-ambient",
+        {
+          autoAlpha: 1,
+          scale: 1,
+          duration: 2,
+        },
+        "awakening"
+      );
+
+      tl.to(
+        ".intro-particles span",
+        {
+          autoAlpha: 1,
+
+          stagger: {
+            each: 0.035,
+            from: "random",
+          },
+
+          duration: 1.1,
+        },
+        "awakening+=0.25"
+      );
 
       tl.fromTo(
         ".intro-kicker",
-        { y: 15, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, duration: 0.8 },
+        {
+          y: 15,
+          autoAlpha: 0,
+        },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.8,
+        },
         "awakening+=0.8"
       );
 
-      tl.to(".intro-side-info, .intro-topbar", {
-        autoAlpha: 1,
-        duration: 0.8,
-      }, "awakening+=1.1");
+      tl.to(
+        ".intro-side-info, .intro-topbar",
+        {
+          autoAlpha: 1,
+          duration: 0.8,
+        },
+        "awakening+=1.1"
+      );
 
-      // Scene 02 — THE CORE
+      tl.to(
+        ".intro-footer",
+        {
+          autoAlpha: 1,
+          duration: 0.5,
+        },
+        "awakening+=0.5"
+      );
+
+      /* =====================================
+         SCENE 02 — THE CORE
+      ===================================== */
+
       tl.addLabel("core", "awakening+=2.1");
 
-      tl.to(".intro-core", {
-        autoAlpha: 1,
-        scale: 1,
-        rotate: 0,
-        duration: 1.4,
-        ease: "back.out(1.3)",
-      }, "core");
+      tl.to(
+        ".intro-core",
+        {
+          autoAlpha: 1,
+          scale: 1,
+          rotate: 0,
+          duration: 1.4,
+          ease: "back.out(1.3)",
+        },
+        "core"
+      );
 
-      tl.to(".intro-orbit-ring", {
-        autoAlpha: 1,
-        stagger: 0.15,
-        duration: 0.9,
-      }, "core+=0.2");
+      // Energy accumulation
+      if (coreController) {
+        tl.to(
+          coreController.powerState,
+          {
+            value: 1,
+            duration: 1.5,
+            ease: "power2.inOut",
 
-      tl.to(".intro-energy", {
-        autoAlpha: 1,
-        scaleX: 1,
-        duration: 1.1,
-        stagger: 0.12,
-      }, "core+=0.35");
+            onUpdate: () => {
+              coreController.applyPower();
+            },
+          },
+          "core+=0.15"
+        );
+      }
 
-      tl.to(".intro-logo", {
-        autoAlpha: 1,
-        scale: 1,
-        rotateY: 0,
-        duration: 1.1,
-        ease: "back.out(1.5)",
-      }, "core+=0.65");
+      tl.to(
+        ".intro-orbit-ring",
+        {
+          autoAlpha: 1,
+          stagger: 0.15,
+          duration: 0.9,
+        },
+        "core+=0.2"
+      );
 
-      tl.to(".intro-core-caption", {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.8,
-      }, "core+=1.1");
+      tl.to(
+        ".intro-energy",
+        {
+          autoAlpha: 1,
+          scaleX: 1,
+          duration: 1.1,
+          stagger: 0.12,
+        },
+        "core+=0.35"
+      );
 
-      // Scene 03 — THE IDENTITY
+      tl.to(
+        ".intro-logo",
+        {
+          autoAlpha: 1,
+          scale: 1,
+          rotateY: 0,
+          duration: 1.1,
+          ease: "back.out(1.5)",
+        },
+        "core+=0.65"
+      );
+
+      tl.to(
+        ".intro-core-caption",
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8,
+        },
+        "core+=1.1"
+      );
+
+      /* =====================================
+         SCENE 03 — THE IDENTITY
+      ===================================== */
+
       tl.addLabel("identity", "core+=2.25");
 
-      tl.to(".intro-core", {
-        scale: 0.78,
-        y: -105,
-        duration: 1.1,
-        ease: "power2.inOut",
-      }, "identity");
+      // Core energy settles
+      if (coreController) {
+        tl.to(
+          coreController.powerState,
+          {
+            value: 0.4,
+            duration: 1.1,
+            ease: "power2.inOut",
 
-      tl.to(".intro-core-caption", {
-        autoAlpha: 0,
-        y: -12,
-        duration: 0.35,
-      }, "identity");
+            onUpdate: () => {
+              coreController.applyPower();
+            },
+          },
+          "identity"
+        );
+      }
 
-      tl.to(".intro-title-block", {
-        autoAlpha: 1,
-        duration: 0.3,
-      }, "identity+=0.2");
+      tl.to(
+        ".intro-core",
+        {
+          scale: 0.78,
+          y: -105,
+          duration: 1.1,
+          ease: "power2.inOut",
+        },
+        "identity"
+      );
 
-      tl.to(".intro-title", {
-        y: 0,
-        filter: "blur(0px)",
-        duration: 1.2,
-        ease: "power3.out",
-      }, "identity+=0.25");
+      tl.to(
+        ".intro-core-caption",
+        {
+          autoAlpha: 0,
+          y: -12,
+          duration: 0.35,
+        },
+        "identity"
+      );
 
-      tl.to(".intro-role", {
-        autoAlpha: 1,
-        y: 0,
-        stagger: 0.15,
-        duration: 0.7,
-      }, "identity+=1.05");
+      tl.to(
+        ".intro-title-block",
+        {
+          autoAlpha: 1,
+          duration: 0.3,
+        },
+        "identity+=0.2"
+      );
 
-      // Scene 04 — THE TRANSITION
-      tl.addLabel("transition", "identity+=2.1");
+      tl.to(
+        ".intro-title",
+        {
+          y: 0,
+          filter: "blur(0px)",
+          duration: 1.2,
+          ease: "power3.out",
+        },
+        "identity+=0.25"
+      );
 
-      tl.to(".intro-access", {
-        autoAlpha: 1,
-        scale: 1,
-        duration: 0.7,
-        ease: "back.out(1.6)",
-      }, "transition");
+      tl.to(
+        ".intro-role",
+        {
+          autoAlpha: 1,
+          y: 0,
+          stagger: 0.15,
+          duration: 0.7,
+        },
+        "identity+=1.05"
+      );
 
-      tl.to(".intro-portal", {
-        autoAlpha: 0.9,
-        scale: 1,
-        duration: 1.15,
-        ease: "power2.in",
-      }, "transition+=0.55");
+      /* =====================================
+         SCENE 04 — THE TRANSITION
+      ===================================== */
 
-      tl.to(".intro-portal", {
-        scale: 18,
-        autoAlpha: 0,
-        duration: 0.8,
-        ease: "power3.in",
-      }, "transition+=1.4");
+      tl.addLabel(
+        "transition",
+        "identity+=2.1"
+      );
 
-      tl.to(".intro-main", {
-        scale: 1.06,
-        duration: 1.1,
-        ease: "power2.in",
-      }, "transition+=1.1");
+      // Final energy surge
+      if (coreController) {
+        tl.to(
+          coreController.powerState,
+          {
+            value: 1,
+            duration: 0.8,
+            ease: "power3.in",
 
-      tl.to(".intro-footer", {
-        autoAlpha: 1,
-        duration: 0.5,
-      }, "awakening+=0.5");
+            onUpdate: () => {
+              coreController.applyPower();
+            },
+          },
+          "transition+=0.2"
+        );
+      }
 
+      tl.to(
+        ".intro-access",
+        {
+          autoAlpha: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: "back.out(1.6)",
+        },
+        "transition"
+      );
+
+      tl.to(
+        ".intro-portal",
+        {
+          autoAlpha: 0.9,
+          scale: 1,
+          duration: 1.15,
+          ease: "power2.in",
+        },
+        "transition+=0.55"
+      );
+
+      tl.to(
+        ".intro-portal",
+        {
+          scale: 18,
+          autoAlpha: 0,
+          duration: 0.8,
+          ease: "power3.in",
+        },
+        "transition+=1.4"
+      );
+
+      tl.to(
+        ".intro-main",
+        {
+          scale: 1.06,
+          duration: 1.1,
+          ease: "power2.in",
+        },
+        "transition+=1.1"
+      );
     }, root);
 
     return () => {
       timelineRef.current?.kill();
+      timelineRef.current = null;
+
       ctx.revert();
     };
   }, [visible, checkFinish]);
 
+  /* =========================================
+     SKIP INTRO
+  ========================================= */
+
   const handleSkip = () => {
     resourcesReadyRef.current = true;
     animationDoneRef.current = true;
+
     finishIntro();
   };
+
+  /* =========================================
+     RENDER
+  ========================================= */
 
   if (!visible) return null;
 
@@ -336,7 +589,10 @@ function Intro() {
       <div className="intro-noise" />
       <div className="intro-ambient" />
 
-      <div className="intro-particles" aria-hidden="true">
+      <div
+        className="intro-particles"
+        aria-hidden="true"
+      >
         {PARTICLES.map((particle) => (
           <span
             key={particle.id}
@@ -360,7 +616,11 @@ function Intro() {
           <span>MH / DIGITAL IDENTITY</span>
         </div>
 
-        <button className="intro-skip" onClick={handleSkip}>
+        <button
+          className="intro-skip"
+          onClick={handleSkip}
+          type="button"
+        >
           SKIP INTRO <span>↗</span>
         </button>
       </header>
@@ -383,6 +643,8 @@ function Intro() {
         </div>
 
         <div className="intro-core">
+          <DigitalCore ref={coreControlRef} />
+
           <div className="intro-core-glow" />
 
           <div className="intro-orbit-ring intro-orbit-ring-outer" />
@@ -409,7 +671,9 @@ function Intro() {
         </div>
 
         <div className="intro-title-block">
-          <span className="intro-title-overline">WELCOME TO MY WORLD</span>
+          <span className="intro-title-overline">
+            WELCOME TO MY WORLD
+          </span>
 
           <h1 className="intro-title">
             MOHAMED <span>HAGAG</span>
@@ -435,13 +699,17 @@ function Intro() {
       <footer className="intro-footer">
         <div className="intro-footer-label">
           <span>EXPERIENCE LOADING</span>
-          <span>{String(progress).padStart(2, "0")}%</span>
+          <span>
+            {String(progress).padStart(2, "0")}%
+          </span>
         </div>
 
         <div className="intro-progress-track">
           <div
             className="intro-progress-fill"
-            style={{ width: `${progress}%` }}
+            style={{
+              width: `${progress}%`,
+            }}
           />
         </div>
 
